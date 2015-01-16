@@ -29,7 +29,8 @@ $app->container->singleton('log', function () use($config){
 
 $container->set('App', $app);
 
-$app->get('/', function () {
+$app->get('/', function () use($app) {
+	$app->log->debug("/ route");
     echo "Hello, world";
 });
 
