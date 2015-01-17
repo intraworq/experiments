@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "92f1ff6c166bafa41b506f6cf1ec560e",
+    "hash": "a5740fcb64e251976ffb3517b6ebd281",
     "packages": [
         {
             "name": "4nd/smarty",
@@ -484,16 +484,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "2.5.0",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeguy/Slim.git",
-                "reference": "04958a10ed95bc7bc97568e573877d4f9b62db48"
+                "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Slim/zipball/04958a10ed95bc7bc97568e573877d4f9b62db48",
-                "reference": "04958a10ed95bc7bc97568e573877d4f9b62db48",
+                "url": "https://api.github.com/repos/codeguy/Slim/zipball/4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
+                "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
                 "shasum": ""
             },
             "require": {
@@ -526,7 +526,7 @@
                 "rest",
                 "router"
             ],
-            "time": "2014-12-09 19:59:29"
+            "time": "2014-04-05 18:33:59"
         },
         {
             "name": "slim/views",
@@ -1583,12 +1583,61 @@
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
             "time": "2015-01-03 15:33:07"
+        },
+        {
+            "name": "there4/slim-test-helpers",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/there4/slim-test-helpers.git",
+                "reference": "2653b5fa95b01e92f0cd9b0f2febba602918b90c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/there4/slim-test-helpers/zipball/2653b5fa95b01e92f0cd9b0f2febba602918b90c",
+                "reference": "2653b5fa95b01e92f0cd9b0f2febba602918b90c",
+                "shasum": ""
+            },
+            "require": {
+                "phpunit/phpunit": "4.*",
+                "slim/slim": "2.4.*"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "There4": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Craig Davis",
+                    "email": "craig@there4development.com"
+                },
+                {
+                    "name": "Guillermo A. Fisher",
+                    "homepage": "http://guillermoandraefisher.com"
+                }
+            ],
+            "description": "Integration testing helpers for the Slim Framework",
+            "homepage": "https://github.com/there4/slim-test-helpers",
+            "keywords": [
+                "slim"
+            ],
+            "time": "2014-11-22 23:51:47"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "mockery/mockery": 20
+        "mockery/mockery": 20,
+        "there4/slim-test-helpers": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

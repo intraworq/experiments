@@ -31,7 +31,7 @@ $container->set('App', $app);
 
 $app->get('/', function () use($app) {
 	$app->log->debug("/ route");
-    echo "Hello, world";
+    $app->render('index.tpl');
 });
 
 $app->run();
