@@ -10,7 +10,7 @@ $container = $builder->build();
 
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
-	'templates.path' => __DIR__ . '/Views'
+	'templates.path' => __DIR__ . '/Views',
 	]);
 
 $view = $app->view();
@@ -26,12 +26,18 @@ $app->container->singleton('log', function () use($config){
 	$log = Logger::getLogger('planq');
 	return $log;
 });
+$app->container->singleton('debugBar', function () use($config){
+	$debugBar = new DebugBar\StandardDebugBar();
+		
+	return $debugBar;
+});
 
 $container->set('App', $app);
 
 $app->get('/', function () use($app) {
 	$app->log->debug("/ route");
-    echo "Hello, world";
+    $app->render('header.tpl',array('debugbarRenderer'=>$app->debugBar->getJavascriptRenderer()));
+    $app->render('footer.tpl',array('debugbarRenderer'=>$app->debugBar->getJavascriptRenderer()));
 });
 
 $app->run();
