@@ -3,6 +3,10 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
+const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
+
+use DebugBar\StandardDebugBar;
+
 $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
 
@@ -27,11 +31,16 @@ $app->container->singleton('log', function () use($config){
 	return $log;
 });
 
+$app->container->singleton('debugBar', function () use($config){
+	$debugBar = new DebugBar\StandardDebugBar();
+	return $debugBar;
+});
+
 $container->set('App', $app);
 
 $app->get('/', function () use($app) {
 	$app->log->debug("/ route");
-    $app->render('index.tpl');
+    $app->render('index.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
 
 $app->run();

@@ -15,7 +15,8 @@
 		"apache/log4php": "~2.3",
 		"slim/views": "*",
         "4nd/smarty": "~3",
-        "mnapoli/php-di": "~4.0"
+        "mnapoli/php-di": "~4.0",
+        "maximebf/debugbar": "*"
 	},
 
 	"require-dev": {

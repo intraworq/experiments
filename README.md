@@ -5,8 +5,6 @@ Running tests
 
 	phpunit --configuration test/config.xml
 
-Running application on build in server
+Running application on build in server (in the project folder)
 
-	php -S localhost:8000 -t src/IntraworQ/
-
-
+	php -S localhost:8000 
