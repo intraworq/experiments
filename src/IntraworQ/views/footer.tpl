@@ -1,3 +1,0 @@
-{$debugbarRenderer->render()}
-</body>
-</html>
