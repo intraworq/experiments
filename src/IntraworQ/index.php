@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
@@ -7,10 +7,8 @@ const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
 
 use DebugBar\StandardDebugBar;
 
-$builder = new \DI\ContainerBuilder();
-// $builder->addDefinitions('injections.php');
+$debugBar = new DebugBar\StandardDebugBar();
 
-$container = $builder->build();
 
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
@@ -23,29 +21,31 @@ $view->parserCompileDirectory = __DIR__ . '/tmp/compiled';
 $view->parserCacheDirectory = __DIR__ . '/tmp/cache';
 $view->parserExtensions = array(
 	__DIR__ . '/vendor/slim/views/Slim/Views/SmartyPlugins',
-	);
+);
 
-$app->container->singleton('log', function () use($config){
+$app->container->singleton('log', function () use($config) {
 	Logger::configure($config['logger']);
 	$log = Logger::getLogger('planq');
 	return $log;
 });
-$app->container->singleton('debugBar', function () use($config){
-	$debugBar = new DebugBar\StandardDebugBar();
-		
-	return $debugBar;
+
+$app->container->singleton('db', function () use($config) {
+	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
+	return $pdo;
 });
 
-$app->container->singleton('debugBar', function () use($config){
-	$debugBar = new DebugBar\StandardDebugBar();
-	return $debugBar;
-});
+$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
+$debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 
-$container->set('App', $app);
+$app->container->set('debugBar', $debugBar);
 
 $app->get('/', function () use($app) {
 	$app->log->debug("/ route");
-    $app->render('index.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+	//database log query example
+	$stmt = $app->db->prepare("SELECT * FROM notes");
+	$stmt->execute();
+
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
 
 $app->run();
