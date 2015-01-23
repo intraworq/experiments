@@ -26,6 +26,7 @@ $view->parserExtensions = array(
 $app->container->singleton('log', function () use($config) {
 	Logger::configure($config['logger']);
 	$log = Logger::getLogger('planq');
+	
 	return $log;
 });
 
@@ -36,15 +37,25 @@ $app->container->singleton('db', function () use($config) {
 
 $pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
 $debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
+$debugBar->addCollector(new \Lib\log4phpCollector($app->log));
 
 $app->container->set('debugBar', $debugBar);
 
-$app->get('/', function () use($app) {
+$app->get('/',	function () use($app) {
 	$app->log->debug("/ route");
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+$app->get('/notes',	function () use($app) {
+	$app->log->debug("/notes route debug");
+	$app->log->error("error");
+	$app->log->fatal("fatal error ");
+	$app->log->warn("warning");
+	$app->log->info("info");
+
 	//database log query example
 	$stmt = $app->db->prepare("SELECT * FROM notes");
 	$stmt->execute();
-
+	$app->log->debug(json_encode($stmt->fetchAll()));
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
 

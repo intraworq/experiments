@@ -14,7 +14,6 @@
 		"slim/slim": "2.*",
 		"apache/log4php": "~2.3",
 		"slim/views": "*",
-		"slim/logger": "0.1.*",
         "4nd/smarty": "~3",
         "mnapoli/php-di": "~4.0",
         "maximebf/debugbar": "*"
@@ -29,7 +28,8 @@
 
 	"autoload": {
 		"psr-4" : {
-			"IntraworQ\\": "src/IntraworQ/"
+			"IntraworQ\\": "src/IntraworQ/",
+			"Lib\\" : "lib"
 		}
 	}
 }

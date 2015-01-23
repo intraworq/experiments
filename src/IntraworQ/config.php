@@ -2,7 +2,7 @@
 
 $config = 
 	['pdo' => [
-			"dsn" => 'mysql:dbname=slim_mp;host=localhost;port=3306',
+			"dsn" => 'mysql:dbname=slim;host=localhost;port=3306',
 			"username" => '',
 			"password" => '',
 			"options" => []
@@ -10,7 +10,7 @@ $config =
 	'logger' => [
        "appenders"  => [
            "console" => [
-               "class"   => "LoggerAppenderConsole",
+               "class"   => "Lib\LoggerAppenderDebugBar",
                "layout"  => [
                    "class"  => "LoggerLayoutPattern",
                    "params" => [
