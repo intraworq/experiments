@@ -16,7 +16,8 @@
 		"slim/views": "*",
         "4nd/smarty": "~3",
         "mnapoli/php-di": "~4.0",
-        "maximebf/debugbar": "*"
+        "maximebf/debugbar": "~1.0",
+        "symfony/var-dumper": "~2.6"
 	},
 
 	"require-dev": {

@@ -9,8 +9,9 @@ use DebugBar\StandardDebugBar;
 
 $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
-
 $container = $builder->build();
+
+Logger::configure($config['logger']);
 
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
@@ -31,8 +32,9 @@ $app->container->singleton('log', function () use($config){
 	return $log;
 });
 
-$app->container->singleton('debugBar', function () use($config){
+$app->container->singleton('debugBar', function () use($app, $config){
 	$debugBar = new DebugBar\StandardDebugBar();
+	//$debugBar->addCollector(new DebugBar\Bridge\Log4PhpCollector($pp->log));
 	return $debugBar;
 });
 
