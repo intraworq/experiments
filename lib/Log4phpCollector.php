@@ -2,14 +2,8 @@
 
 namespace Lib;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of log4phpCollector
+ * Collector for log4php to log messages in debugbar tab
  *
  * @author mpiekarczyk
  */

@@ -46,14 +46,15 @@ $app->get('/',	function () use($app) {
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
 $app->get('/notes',	function () use($app) {
-	$app->log->debug("/notes route debug");
+	/** sample mesages to debugbar log4pp tab **/
+    $app->log->debug("/notes route debug");
 	$app->log->error("error");
 	$app->log->fatal("fatal error ");
 	$app->log->warn("warning");
 	$app->log->info("info");
 
 	//database log query example
-	$stmt = $app->db->prepare("SELECT * FROM notes");
+	$stmt = $app->db->prepare("SELECT * FROM tebook");
 	$stmt->execute();
 	$app->log->debug(json_encode($stmt->fetchAll()));
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
