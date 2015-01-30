@@ -16,6 +16,10 @@
 </head>
 
 <body>
+	<ul>
+		<li><a href="/">MainPage</a>
+		<li><a href="/notes">Notes</a>
+	</ul>
 {block name='body'}{/block}
 {$debugbarRenderer->render()}
 </body>

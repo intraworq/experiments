@@ -3,8 +3,6 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
-const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
-
 use DebugBar\StandardDebugBar;
 
 $debugBar = new DebugBar\StandardDebugBar();
@@ -43,7 +41,7 @@ $app->container->set('debugBar', $debugBar);
 
 $app->get('/',	function () use($app) {
 	$app->log->debug("/ route");
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer()]);
 });
 $app->get('/notes',	function () use($app) {
 	/** sample mesages to debugbar log4pp tab **/
@@ -57,7 +55,7 @@ $app->get('/notes',	function () use($app) {
 	$stmt = $app->db->prepare("SELECT * FROM notes");
 	$stmt->execute();
 	$app->log->debug(json_encode($stmt->fetchAll()));
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+	$app->render('notes.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer()]);
 });
 
 $app->run();
