@@ -16,7 +16,8 @@
 		"slim/views": "*",
         "4nd/smarty": "~3",
         "mnapoli/php-di": "~4.0",
-        "maximebf/debugbar": "*"
+        "maximebf/debugbar": "*",
+		"firephp/firephp-core": "dev-master"
 	},
 
 	"require-dev": {
