@@ -54,7 +54,7 @@ $app->get('/notes',	function () use($app) {
 	$app->log->info("info");
 
 	//database log query example
-	$stmt = $app->db->prepare("SELECT * FROM tebook");
+	$stmt = $app->db->prepare("SELECT * FROM notes");
 	$stmt->execute();
 	$app->log->debug(json_encode($stmt->fetchAll()));
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
