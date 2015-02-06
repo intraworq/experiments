@@ -8,6 +8,7 @@ require 'config.php';
 use DebugBar\StandardDebugBar;
 
 $debugBar = $debugbar = new DebugBar\StandardDebugBar();
+$debugBar->getCollector('messages')->addMessage($debugBar->getCollector('php')->collect());
 
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
