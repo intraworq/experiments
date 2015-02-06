@@ -9,7 +9,6 @@ use DebugBar\StandardDebugBar;
 
 $debugBar = new DebugBar\StandardDebugBar();
 
-
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
 	'templates.path' => __DIR__ . '/Views',
@@ -29,6 +28,9 @@ $app->container->singleton('log', function () use($config) {
 	
 	return $log;
 });
+$app->container->singleton('message', function () use($debugBar) {
+	return $debugBar["messages"];
+});
 
 $app->container->singleton('db', function () use($config) {
 	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
@@ -41,7 +43,8 @@ $debugBar->addCollector(new \Lib\log4phpCollector($app->log));
 
 $app->container->set('debugBar', $debugBar);
 
-$app->get('/',	function () use($app) {
+$app->get('/',
+	function () use($app) {
 	$app->log->debug("/ route");
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
@@ -59,5 +62,9 @@ $app->get('/notes',	function () use($app) {
 	$app->log->debug(json_encode($stmt->fetchAll()));
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
-
+$app->get('/message/(:news)',
+	function ($news = 'Wiadomość') use($app) {
+	$app->message->addMessage($news);
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
 $app->run();
