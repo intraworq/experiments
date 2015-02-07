@@ -1,20 +1,18 @@
 msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+#: src//IntraworQ/Views/index.tpl:2
+msgid "IntraworQ - no translation"
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Language: pl_PL\n"
-"X-Generator: Poedit 1.7.4\n"
 
-#: src/IntraworQ/Views//index.tpl:4
+#: src//IntraworQ/Views/index.tpl:5
 msgid "Welcome! "
-msgstr "Witaj!"
+msgstr ""
 
-#: src/IntraworQ/Views//master.tpl:5
+#: src//IntraworQ/Views/index.tpl:6
+msgid "To my site "
+msgstr ""
+
+#: src//IntraworQ/Views/master.tpl:5
 msgid "My site name"
-msgstr "Moja strona"
+msgstr ""

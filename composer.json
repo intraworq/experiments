@@ -35,6 +35,7 @@
 	},
 
 	"scripts": {
-		"extract-translations": "vendor/smarty-gettext/smarty-gettext/tsmarty2c.php src/ > translations.po"
+		"extract-translations": "vendor/smarty-gettext/smarty-gettext/tsmarty2c.php src/ > translations.po",
+		"merge-translations": "msgcat src/IntraworQ/i18n/pl_PL/LC_MESSAGES/messages.po translations.po > src/IntraworQ/i18n/pl_PL/LC_MESSAGES/messages.po"
 	}
 }
