@@ -5,6 +5,16 @@ require 'config.php';
 
 const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
 
+$language = "pl_PL";
+putenv("LANG=" . $language); 
+setlocale(LC_ALL, $language);
+ 
+// Set the text domain as "messages"
+$domain = "messages";
+bindtextdomain($domain, "src/IntraworQ/i18n"); 
+bind_textdomain_codeset($domain, 'UTF-8');
+textdomain($domain);
+
 use DebugBar\StandardDebugBar;
 
 $builder = new \DI\ContainerBuilder();
@@ -24,6 +34,7 @@ $view->parserCompileDirectory = __DIR__ . '/tmp/compiled';
 $view->parserCacheDirectory = __DIR__ . '/tmp/cache';
 $view->parserExtensions = array(
 	__DIR__ . '/vendor/slim/views/Slim/Views/SmartyPlugins',
+	__DIR__ . '/vendor/smarty-gettext/smarty-gettext'
 	);
 
 $app->container->singleton('log', function () use($config){
@@ -43,6 +54,10 @@ $container->set('App', $app);
 $app->get('/', function () use($app) {
 	$app->log->debug("/ route");
     $app->render('index.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+
+$app->get('/test', function() {
+	echo 'test';
 });
 
 $app->run();
