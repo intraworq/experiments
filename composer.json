@@ -17,7 +17,9 @@
         "4nd/smarty": "~3",
         "mnapoli/php-di": "~4.0",
         "maximebf/debugbar": "*",
-		"firephp/firephp-core": "dev-master"
+		"firephp/firephp-core": "dev-master",
+		"maximebf/cachecache": ">=0.1.0",
+		"monolog/monolog": "*"
 	},
 
 	"require-dev": {

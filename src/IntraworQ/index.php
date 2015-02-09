@@ -1,5 +1,4 @@
 <?php
-
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
@@ -9,11 +8,25 @@ use DebugBar\StandardDebugBar;
 
 $debugBar = $debugbar = new DebugBar\StandardDebugBar();
 $debugBar->getCollector('messages')->addMessage($debugBar->getCollector('php')->collect());
-
+$cache = new CacheCache\Cache(new CacheCache\Backends\Memory());
+$debugBar->addCollector(new \DebugBar\Bridge\CacheCacheCollector($cache));
+$cacheInstance = new \CacheCache\Cache(new \CacheCache\Backends\Memory());
+\CacheCache\CacheManager::set('mycache', $cache);
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
 	'templates.path' => __DIR__ . '/Views',
 	]);
+$app->add(new \Slim\Middleware\SessionCookie(array(
+	'expires' => '20 minutes',
+	'path' => '/',
+	'domain' => null,
+	'secure' => false,
+	'httponly' => false,
+	'name' => 'slim_session',
+	'secret' => 'CHANGE_ME',
+	'cipher' => MCRYPT_RIJNDAEL_256,
+	'cipher_mode' => MCRYPT_MODE_CBC
+)));
 
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
@@ -57,6 +70,9 @@ $app->container->set('debugBar', $debugBar);
 
 $app->get('/',
 	function () use($app) {
+	$cache = \CacheCache\CacheManager::get('mycache');
+	$cache->set('test', 'wartosc');
+	dump($cache->get('test'));
 	$app->log->debug("/ route");
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
