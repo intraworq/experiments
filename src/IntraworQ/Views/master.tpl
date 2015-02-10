@@ -1,4 +1,3 @@
-<!-- {locale path="../i18n"} -->
 <!DOCTYPE html>
 <html>
 <head>

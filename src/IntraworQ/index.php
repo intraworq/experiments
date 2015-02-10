@@ -1,4 +1,22 @@
 <?php
-require 'app.php'
+require __DIR__ . '/../../vendor/autoload.php';
+
+$language = "pl_PL";
+putenv("LANG=" . $language);
+setlocale(LC_ALL, $language);
+
+$domain = 'messages';
+$path = __DIR__ . '/i18n';
+bind_textdomain_codeset($domain, 'UTF-8');
+bindtextdomain($domain, $path); 
+textdomain($domain);
+
+$app = new \Slim\Slim([
+	'view' => new \Slim\Views\Smarty(),
+	'templates.path' => __DIR__ . '/Views'
+	]);
+
+require_once 'app.php';
+
 $app->run();
 ?>

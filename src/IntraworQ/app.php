@@ -1,26 +1,15 @@
 <?php 
 
-require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
-$domain = 'messages';
-$path = 'i18n';
-bind_textdomain_codeset($domain, 'UTF-8');
-bindtextdomain($domain, $path); 
-textdomain($domain);
-
 use DebugBar\StandardDebugBar;
+use IntraworQ\Models;
 
 $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
 $container = $builder->build();
 
 Logger::configure($config['logger']);
-
-$app = new \Slim\Slim([
-	'view' => new \Slim\Views\Smarty(),
-	'templates.path' => __DIR__ . '/Views'
-	]);
 
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
@@ -43,14 +32,13 @@ $app->container->singleton('debugbar_path', function() {
 
 $app->container->singleton('debugBar', function () use($app, $config){
 	$debugBar = new DebugBar\StandardDebugBar();
-	//$debugBar->addCollector(new DebugBar\Bridge\Log4PhpCollector($pp->log));
 	return $debugBar;
 });
 
-//$container->set('App', $app);
+$container->set('App', $app);
 
 $app->get('/', function () use($app) {
-	$app->log->debug("/ route");
+	$app->log->debug("GET: / route");
     $app->render('index.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
 
@@ -59,11 +47,21 @@ $app->get('/test', function() {
 });
 
 $app->get('/hello/:name', function($name) use($app) {
-	$app->log->info("getting /hello/{$name} route");
+	$app->log->info("GET: getting /hello/{$name} route");
 	echo "Hello, {$name}";
 });
 
 $app->get('/greet/:name', function($name) use($app) {
-	$app->log->info("getting /greet/{$name} route");
+	$app->log->info("GET: getting /greet/{$name} route");
 	$app->render('hello.tpl', ['name' => $name]);
+});
+
+$app->post('/user', function() use($app) {
+	$payload = $app->request->post('name');
+	$app->log->info("POST: {$payload} created");
+	$app->response->write($payload . ' created');
+});
+
+$app->get('/user', function() use($app) {
+	$app->render('user.tpl', ['user' => new \IntraworQ\Models\User("George"), 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });

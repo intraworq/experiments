@@ -17,7 +17,7 @@ msgstr "Witaj"
 
 #: src/IntraworQ/Views//index.tpl:2
 msgid "IntraworQ - no translation"
-msgstr ""
+msgstr "IntraworQ - pl_PL"
 
 #: src/IntraworQ/Views//index.tpl:5
 msgid "Welcome! "

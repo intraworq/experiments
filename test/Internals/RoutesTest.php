@@ -41,4 +41,11 @@ class RoutesTest extends LocalWebTestCase
 		$this->client->get('/greet/George');
 		$this->assertRegExp("/Howdy, George/", $this->client->response->body());
 	}
+
+	public function test_post_route() {
+		$data = ['name' => 'George'];
+		//$payload =  json_encode($data);
+		$this->client->post('/user', $data);
+		$this->assertEquals("George created", $this->client->response->body());
+	}
 }
