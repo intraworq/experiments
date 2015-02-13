@@ -5,6 +5,7 @@ require 'config.php';
 	const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
 
 use DebugBar\StandardDebugBar;
+use League\Period\Period;
 
 $debugBar = $debugbar = new DebugBar\StandardDebugBar();
 $debugBar->getCollector('messages')->addMessage($debugBar->getCollector('php')->collect());
@@ -70,10 +71,33 @@ $app->container->set('debugBar', $debugBar);
 
 $app->get('/',
 	function () use($app) {
+	$app->log->debug("/ route");
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+$app->get('/cache',
+	function () use($app) {
 	$cache = \CacheCache\CacheManager::get('mycache');
 	$cache->set('test', 'wartosc');
 	dump($cache->get('test'));
-	$app->log->debug("/ route");
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+$app->get('/period',
+	function () use($app) {
+
+	$period = Period::createFromDuration('2014-10-03 08:12:37', 3600);
+	$period2 = Period::createFromDuration('2014-10-03 08:12:37', 7200);
+	$start = $period->getStart(); //return the following DateTime: DateTime('2014-10-03 08:12:37');
+	$end = $period->getEnd(); //return the following DateTime: DateTime('2014-10-03 09:12:37');
+	$duration = $period->getDuration(); //return a DateInterval object
+	$duration2 = $period->getDuration(true); //return the same interval expressed in seconds.
+	dump($period->diff($period2));
+	dump(Period::createFromMonth(2015, 2));
+	dump(Period::createFromQuarter(2015, 1));
+	dump(Period::createFromSemester(2015, 1));
+	dump(Period::createFromWeek(2015, 22));
+	dump(Period::createFromYear(2015));
+	dump($period->intersect($period2));
+
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
 $app->get('/notes',

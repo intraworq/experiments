@@ -19,7 +19,8 @@
         "maximebf/debugbar": "*",
 		"firephp/firephp-core": "dev-master",
 		"maximebf/cachecache": ">=0.1.0",
-		"monolog/monolog": "*"
+		"monolog/monolog": "*",
+		"league/period": "*"
 	},
 
 	"require-dev": {
