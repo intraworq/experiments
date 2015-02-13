@@ -2,6 +2,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
+
 	const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
 
 use DebugBar\StandardDebugBar;
@@ -97,6 +98,13 @@ $app->get('/period',
 	dump(Period::createFromWeek(2015, 22));
 	dump(Period::createFromYear(2015));
 	dump($period->intersect($period2));
+	dump(array($start, $end));
+	$pp = new PHPeriod\Period(new DateTime("2012-07-08 11:14:15.638276"), new DateTime("2012-07-09 11:14:15.638276"));
+	$pp2 = new PHPeriod\Period(new DateTime("2012-07-08 12:14:15.638276"), new DateTime("2012-07-09 11:14:15.638276"));
+	$p = new \PHPeriod\PeriodCollection();
+	$p->append($pp);
+	$p->append($pp2);
+	dump($p);
 
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });

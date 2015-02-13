@@ -20,7 +20,8 @@
 		"firephp/firephp-core": "dev-master",
 		"maximebf/cachecache": ">=0.1.0",
 		"monolog/monolog": "*",
-		"league/period": "*"
+		"league/period": "*",
+		"nesbot/carbon": "*"
 	},
 
 	"require-dev": {
@@ -33,6 +34,7 @@
 	"autoload": {
 		"psr-4" : {
 			"IntraworQ\\": "src/IntraworQ/",
+			"PHPeriod\\": "src/PHPeriod/",
 			"Lib\\" : "lib"
 		}
 	}
