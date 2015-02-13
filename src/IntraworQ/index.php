@@ -82,7 +82,7 @@ $app->get('/cache',
 	dump($cache->get('test'));
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
-$app->get('/period',
+$app->get('/leaguePeriod',
 	function () use($app) {
 
 	$period = Period::createFromDuration('2014-10-03 08:12:37', 3600);
@@ -99,6 +99,14 @@ $app->get('/period',
 	dump(Period::createFromYear(2015));
 	dump($period->intersect($period2));
 	dump(array($start, $end));
+	
+
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+
+$app->get('/phpPeriod',
+	function () use($app) {
+
 	$pp = new PHPeriod\Period(new DateTime("2012-07-08 11:14:15.638276"), new DateTime("2012-07-09 11:14:15.638276"));
 	$pp2 = new PHPeriod\Period(new DateTime("2012-07-08 12:14:15.638276"), new DateTime("2012-07-09 11:14:15.638276"));
 	$p = new \PHPeriod\PeriodCollection();
@@ -108,6 +116,7 @@ $app->get('/period',
 
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
+
 $app->get('/notes',
 	function () use($app) {
 	/** sample mesages to debugbar log4pp tab * */
