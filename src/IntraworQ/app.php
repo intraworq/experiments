@@ -59,9 +59,19 @@ $app->get('/greet/:name', function($name) use($app) {
 $app->post('/user', function() use($app) {
 	$payload = $app->request->post('name');
 	$app->log->info("POST: {$payload} created");
-	$app->response->write($payload . ' created');
+	if($app->request->isAjax()) {
+		$app->log->info('got AJAX request');
+		$a = ['user' => $payload . ' created'];
+		$app->response->write(json_encode($a));
+	} else {
+		$app->response->write($payload . ' created');
+	}
 });
 
 $app->get('/user', function() use($app) {
 	$app->render('user.tpl', ['user' => new \IntraworQ\Models\User("George"), 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+});
+
+$app->get('/user_ajax', function() use($app) {
+	$app->render('user_ajax.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });

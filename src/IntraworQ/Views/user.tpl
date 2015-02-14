@@ -3,8 +3,8 @@
 
 {block name='body'} 
 <h3>Create new user</h3>
-<form method="post" name='user' action="/user">
-	<input type="text" name='name' value="{$user->getName()}" />
+<form method="post" name='user' id='form' action="/user">
+	<input type="text" name='name' id='name' placeholder="Insert name" />
 	<input type="submit" value="Submit" />
 </form>
 
