@@ -5,4 +5,3 @@
 {t}Welcome! {/t} 
 {t}To my site {/t}
 {/block}
-
