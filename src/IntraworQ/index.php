@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
@@ -8,12 +9,16 @@ require 'config.php';
 use DebugBar\StandardDebugBar;
 use League\Period\Period;
 
-$debugBar = $debugbar = new DebugBar\StandardDebugBar();
-$debugBar->getCollector('messages')->addMessage($debugBar->getCollector('php')->collect());
-$cache = new CacheCache\Cache(new CacheCache\Backends\Memory());
-$debugBar->addCollector(new \DebugBar\Bridge\CacheCacheCollector($cache));
-$cacheInstance = new \CacheCache\Cache(new \CacheCache\Backends\Memory());
-\CacheCache\CacheManager::set('mycache', $cache);
+//definicja cache
+$cache = \CacheCache\CacheManager::factory(array(
+		'backend' => 'CacheCache\Backends\Memcache',
+		'backend_args' => array(array(
+				'host' => 'localhost',
+				'port' => 11211
+			))
+	));
+
+//konfiguracja slim
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
 	'templates.path' => __DIR__ . '/Views',
@@ -37,7 +42,12 @@ $view->parserCacheDirectory = __DIR__ . '/tmp/cache';
 $view->parserExtensions = array(
 	__DIR__ . '/vendor/slim/views/Slim/Views/SmartyPlugins',
 );
+//debuger php
+$debugBar = $debugbar = new DebugBar\StandardDebugBar();
+$debugBar->getCollector('messages')->addMessage($debugBar->getCollector('php')->collect());
+$debugBar->addCollector(new DebugBar\Bridge\CacheCacheCollector($cache));
 
+//kontenery
 $app->container->singleton('log',
 	function () use($config) {
 	Logger::configure($config['logger']);
@@ -48,6 +58,10 @@ $app->container->singleton('log',
 
 $app->container->singleton('message', function () use($debugBar) {
 	return $debugBar->getCollector('messages');
+});
+
+$app->container->singleton('cache', function () use($cache) {
+	return $cache;
 });
 
 $app->container->singleton('time', function () use($debugBar) {
@@ -63,23 +77,34 @@ $app->container->singleton('db',
 	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
 	return $pdo;
 });
-
+//DEBUGER BAZY
 $pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
 $debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 $debugBar->addCollector(new \Lib\log4phpCollector($app->log));
 
 $app->container->set('debugBar', $debugBar);
 
+//STRONY
 $app->get('/',
 	function () use($app) {
 	$app->log->debug("/ route");
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
+$app->get('/setCache',
+	function () use($app) {
+	//test cache
+	$object = new StdClass;
+	$object->attribute = 'test';
+	$app->cache->set('object', $object);
+	$app->cache->set('array', array('sadf'));
+	$app->cache->set('string', 'fsd');
+
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
 $app->get('/cache',
 	function () use($app) {
-	$cache = \CacheCache\CacheManager::get('mycache');
-	$cache->set('test', 'wartosc');
-	dump($cache->get('test'));
+	$app->cache->get('object');
+	$app->message->addMessage($app->cache->get('object'));
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
 $app->get('/leaguePeriod',
@@ -99,7 +124,7 @@ $app->get('/leaguePeriod',
 	dump(Period::createFromYear(2015));
 	dump($period->intersect($period2));
 	dump(array($start, $end));
-	
+
 
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });

@@ -34,7 +34,7 @@
 	"autoload": {
 		"psr-4" : {
 			"IntraworQ\\": "src/IntraworQ/",
-			"PHPeriod\\": "src/PHPeriod/",
+			"IntraworQ\\PHPeriod\\": "src/IntraworQ/PHPeriod/",
 			"Lib\\" : "lib"
 		}
 	}
