@@ -4,6 +4,7 @@ require 'config.php';
 
 use DebugBar\StandardDebugBar;
 use IntraworQ\Models;
+use IntraworQ\Library;
 
 $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
@@ -36,9 +37,13 @@ $app->container->singleton('debugBar', function () use($app, $config){
 });
 
 $container->set('App', $app);
+$app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
 
 $app->get('/', function () use($app) {
 	$app->log->debug("GET: / route");
+	$app->log->info("GET: / route");
+	$app->log->error("GET: / route");
+
     $app->render('index.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
 
@@ -53,7 +58,7 @@ $app->get('/hello/:name', function($name) use($app) {
 
 $app->get('/greet/:name', function($name) use($app) {
 	$app->log->info("GET: getting /greet/{$name} route");
-	$app->render('hello.tpl', ['name' => $name]);
+	$app->render('hello.tpl', ['name' => $name, 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
 
 $app->post('/user', function() use($app) {
