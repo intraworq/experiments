@@ -17,16 +17,21 @@ class LocalWebTestCase extends WebTestCase {
 		
 		\Slim\Environment::mock(array_merge(array(
 			'SERVER_NAME'    => 'local.dev',
+			'mode'    => 'testing'
 			)));
 
-		$app = new \Slim\Slim(array(
-			'version'        => '0.0.0',
-			'debug'          => false,
-			'mode'           => 'testing',
-			'templates.path' => __DIR__ . '/../app/templates'
-			));
+		$app = new \Slim\Slim([
+			'view' => new \Slim\Views\Smarty(),
+			'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views'
+			]);
+
+		$domain = 'messages';
+		$path = PROJECT_ROOT . '/src/IntraworQ/i18n';
+		bind_textdomain_codeset($domain, 'UTF-8');
+		bindtextdomain($domain, $path); 
+		textdomain($domain);
       // Include our core application file
-		require PROJECT_ROOT . '/src/IntraworQ/index.php';
+		require PROJECT_ROOT . '/src/IntraworQ/app.php';
 
 		return $app;
 	}

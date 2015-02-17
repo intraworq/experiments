@@ -1,2 +1,6 @@
 vendor/
 tmp/
+*.mo
+translations.po
+.idea/
+/nbproject/

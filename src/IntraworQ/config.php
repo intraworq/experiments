@@ -2,9 +2,9 @@
 
 $config = 
 	['pdo' => [
-			"dsn" => 'mysql:dbname=slim;host=localhost;port=3306',
-			"username" => '',
-			"password" => '',
+			"dsn" => 'mysql:dbname=slim_mp;host=localhost;port=3306',
+			"username" => 'root',
+			"password" => '1234',
 			"options" => []
 	],
 	'logger' => [
