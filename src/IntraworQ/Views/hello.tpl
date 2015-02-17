@@ -1,2 +1,4 @@
 {extends file="master.tpl"}
-{t}Hello{/t}, {$name}
+{block name='body'} 
+	{t}Hello{/t}, {$name}
+{/block}
