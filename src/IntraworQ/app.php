@@ -43,6 +43,10 @@ $app->container->singleton('debugBar', function () use($app, $config){
 	$debugBar->addCollector(new \Lib\log4phpCollector($app->log));	
 	return $debugBar;
 });
+$app->container->singleton('faker', function () use($config){
+	$faker = Faker\Factory::create();	
+	return $faker;
+});
 
 $container->set('App', $app);
 
@@ -72,7 +76,7 @@ $app->post('/user', function() use($app) {
 });
 
 $app->get('/user', function() use($app) {
-	$app->render('user.tpl', ['user' => new \IntraworQ\Models\User("George"), 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('user.tpl', ['user' => new \IntraworQ\Models\User($app->faker->lastName, $app->faker->firstNameMale), 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
 $app->get('/notes',	function () use($app) {
 	/** sample mesages to debugbar log4pp tab **/
@@ -87,4 +91,11 @@ $app->get('/notes',	function () use($app) {
 	$stmt->execute();
 	$app->log->debug(json_encode($stmt->fetchAll()));
 	$app->render('notes.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer()]);
+});
+
+$app->get('/userList',	function () use($app) {
+	for($i=0;$i<=10;$i++) {
+		$users[] = new \IntraworQ\Models\User($app->faker->lastName, $app->faker->firstNameMale,$app->faker->text);	
+	}
+	$app->render('userList.tpl', ['users' => $users, 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
