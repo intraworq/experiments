@@ -1,4 +1,4 @@
-<?php namespace DebugBar\Bridge;
+<?php namespace IntraworQ\Library;
 /*
  * This file is part of the DebugBar package.
  *
@@ -11,7 +11,7 @@ use DebugBar\DataCollector\DataCollectorInterface;
 use DebugBar\DataCollector\MessagesAggregateInterface;
 use DebugBar\DataCollector\Renderable;
 
-class Log4PhpCollector extends LoggerAppender implements DataCollectorInterface, Renderable, MessagesAggregateInterface
+class Log4PhpCollector extends \LoggerAppender implements DataCollectorInterface, Renderable, MessagesAggregateInterface
 {
     protected $name;
     protected $records = array();
@@ -26,7 +26,7 @@ class Log4PhpCollector extends LoggerAppender implements DataCollectorInterface,
      * @param boolean $bubble
      * @param string $name
      */
-    public function __construct(Logger $logger, $name = 'log4php')
+    public function __construct(\Logger $logger, $name = 'log4php')
     {
         parent::__construct($name);
         $this->logger = $logger;
@@ -36,12 +36,12 @@ class Log4PhpCollector extends LoggerAppender implements DataCollectorInterface,
     /**
      * Log4PHP
      */
-    public function append(LoggerLoggingEvent $event) {
+    public function append(\LoggerLoggingEvent $event) {
 		$this->records[] = array(
             'message' => $event->getMessage(),
             'is_string' => true,
-            'label' => $event->getLevel(),
-            'time' => $event->getTime()
+            'label' => strtolower($event->getLevel()->toString()),
+            'time' => $event->getRelativeTime()
         );
 	}
 

@@ -2,6 +2,7 @@
 	"name":             "iwq/experiments",
 	"description":      "Modern PHP based web applications experiments",
 	"homepage":         "http://intraworq.com",
+	"version":			"1.0.3",
 	"license":          "proprietary",
 	
 	"authors": [{
@@ -19,6 +20,8 @@
         "maximebf/debugbar": "~1.0",
         "symfony/var-dumper": "~2.6",
         "smarty-gettext/smarty-gettext": "~1.1",
+        "components/jquery": "~2.1",
+        "robloach/component-installer": "*",
 		"fzaninotto/faker": "1.4.*",
         "twitter/bootstrap": "3.3.*"
 	},
@@ -27,7 +30,8 @@
         "phpunit/phpunit": "~4.3",
         "mockery/mockery": "~0.9",
         "fzaninotto/faker": "~1.4",
-        "there4/slim-test-helpers": "~0.9"
+        "there4/slim-test-helpers": "~0.9",
+        "facebook/webdriver": "dev-master"
     },
 
 	"autoload": {
@@ -36,6 +40,10 @@
 			"Lib\\" : "lib"
 		}
 	},
+
+	"config": {
+        "component-dir": "assets"
+    },
 
 	"scripts": {
 		"extract-translations": "vendor/smarty-gettext/smarty-gettext/tsmarty2c.php src/ > translations.po",

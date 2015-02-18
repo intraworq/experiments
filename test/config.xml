@@ -17,8 +17,11 @@
    stopOnSkipped="false"
    verbose="true">
    <testsuites>
-    <testsuite name="Internals">
+     <testsuite name="Internals">
       <directory>Internals</directory>
-  </testsuite>
+   </testsuite>
+<!--    <testsuite name="Integration">
+      <directory>Integration</directory>
+   </testsuite> -->
 </testsuites>
 </phpunit>
