@@ -2,8 +2,8 @@
 {block name='title'} {t}Users list{/t} {/block}
 
 {block name='body'} 
-<h3>Users</h3>
-<table>
+<h1>Users</h1>
+<table class="table table-bordered">
 	<tr>
 		<th>First name</th>
 		<th>Last name</th>

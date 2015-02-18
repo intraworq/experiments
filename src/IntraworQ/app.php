@@ -32,7 +32,7 @@ $app->container->singleton('log', function () use($config){
 });
 
 $app->container->singleton('debugbar_path', function() {
-	return '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
+	return '/vendor/maximebf/debugbar/src/DebugBar/Resources';
 });
 
 $app->container->singleton('debugBar', function () use($app, $config){
@@ -89,8 +89,9 @@ $app->get('/notes',	function () use($app) {
 	//database log query example
 	$stmt = $app->db->prepare("SELECT * FROM notes");
 	$stmt->execute();
-	$app->log->debug(json_encode($stmt->fetchAll()));
-	$app->render('notes.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer()]);
+	$notes = $stmt->fetchAll();
+	$app->log->debug(json_encode($notes));
+	$app->render('notes.tpl', ['notes'=>$notes,'debugbarRenderer' => $app->debugBar->getJavascriptRenderer()]);
 });
 
 $app->get('/userList',	function () use($app) {

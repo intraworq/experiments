@@ -19,7 +19,8 @@
         "maximebf/debugbar": "~1.0",
         "symfony/var-dumper": "~2.6",
         "smarty-gettext/smarty-gettext": "~1.1",
-		"fzaninotto/faker": "1.4.*"
+		"fzaninotto/faker": "1.4.*",
+        "twitter/bootstrap": "3.3.*"
 	},
 
 	"require-dev": {
