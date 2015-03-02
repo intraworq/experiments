@@ -21,7 +21,8 @@
 		"maximebf/cachecache": ">=0.1.0",
 		"monolog/monolog": "*",
 		"league/period": "*",
-		"nesbot/carbon": "*"
+		"nesbot/carbon": "*",
+		 "doctrine/orm": "*"
 	},
 
 	"require-dev": {
@@ -34,8 +35,9 @@
 	"autoload": {
 		"psr-4" : {
 			"IntraworQ\\": "src/IntraworQ/",
-			"IntraworQ\\PHPeriod\\": "src/IntraworQ/PHPeriod/",
+			"PHPeriod\\": "src/IntraworQ/PHPeriod/",
 			"Lib\\" : "lib"
-		}
+		},
+		 "psr-0": {"": "src/IntraworQ/entities"}
 	}
 }

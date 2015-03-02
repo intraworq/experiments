@@ -3,6 +3,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require 'config.php';
 
+require_once 'config/bootstrap.php';
 
 	const DEBUGBAR_PATH = '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
 
@@ -20,7 +21,7 @@ $cache = \CacheCache\CacheManager::factory(array(
 
 //konfiguracja slim
 $app = new \Slim\Slim([
-	'view' => new \Slim\Views\Smarty(),
+	'view' => new Slim\Views\Smarty(),
 	'templates.path' => __DIR__ . '/Views',
 	]);
 $app->add(new \Slim\Middleware\SessionCookie(array(
@@ -70,6 +71,10 @@ $app->container->singleton('time', function () use($debugBar) {
 
 $app->container->singleton('exceptions', function () use($debugBar) {
 	return $debugBar->getCollector('exceptions');
+});
+
+$app->container->singleton('doctrine', function () use($entityManager) {
+	return $entityManager;
 });
 
 $app->container->singleton('db',
@@ -180,4 +185,20 @@ $app->get('/exceptions',
 
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
+
+$app->get('/create/:name',
+	function ($name) use($app) {
+	$newProductName = $name;
+
+	$product = new Product();
+	$product->setName($newProductName);
+	$entityManager = $app->doctrine;
+	$entityManager->persist($product);
+	$entityManager->flush();
+
+	echo "Created Product with ID " . $product->getId() . "\n";
+
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+
 $app->run();

@@ -37,3 +37,11 @@ http://maximebf.github.io/CacheCache/
 http://php.net/manual/en/book.memcache.php
 
 KONIEC MEMCACHE
+
+
+Klient do sql lite
+https://github.com/sqlitebrowser/sqlitebrowser/releases
+
+
+ORM
+http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/getting-started.html
