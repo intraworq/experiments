@@ -48,6 +48,7 @@ $debugBar = $debugbar = new DebugBar\StandardDebugBar();
 $debugBar->getCollector('messages')->addMessage($debugBar->getCollector('php')->collect());
 $debugBar->addCollector(new DebugBar\Bridge\CacheCacheCollector($cache));
 
+
 //kontenery
 $app->container->singleton('log',
 	function () use($config) {
@@ -82,11 +83,15 @@ $app->container->singleton('db',
 	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
 	return $pdo;
 });
-//DEBUGER BAZY
-$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
-$debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 $debugBar->addCollector(new \Lib\log4phpCollector($app->log));
-
+//DEBUGER BAZY
+//jeżeli zwykłe PDO
+//$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
+//$debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
+//jeżeli Doctrine
+$debugStack = new \Doctrine\DBAL\Logging\DebugStack();
+$entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
+$debugBar->addCollector(new DebugBar\Bridge\DoctrineCollector($entityManager));
 $app->container->set('debugBar', $debugBar);
 
 //STRONY
@@ -197,6 +202,20 @@ $app->get('/create/:name',
 	$entityManager->flush();
 
 	echo "Created Product with ID " . $product->getId() . "\n";
+
+	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
+});
+
+$app->get('/list',
+	function () use($app) {
+	$entityManager = $app->doctrine;
+	$productRepository = $entityManager->getRepository('Product');
+	$products = $productRepository->findAll();
+
+	foreach ($products as $product) {
+		echo sprintf("-%s\n", $product->getName());
+		echo'<br>';
+	}
 
 	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer(DEBUGBAR_PATH)]);
 });
