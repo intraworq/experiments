@@ -23,7 +23,8 @@
         "components/jquery": "~2.1",
         "robloach/component-installer": "*",
 		"fzaninotto/faker": "1.4.*",
-        "twitter/bootstrap": "3.3.*"
+        "twitter/bootstrap": "3.3.*",
+		"respect/validation": "0.8.*"
 	},
 
 	"require-dev": {
