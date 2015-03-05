@@ -27,6 +27,7 @@
 						<li><a href="/">MainPage</a>
 						<li><a href="/notes">Notes</a>
 						<li><a href="/userList">Users list</a>
+						<li><a href="/user">User Form</a>
 					</ul>
 				</div>
 			</div>

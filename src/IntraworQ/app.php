@@ -49,6 +49,9 @@ $app->container->singleton('faker', function () use($config){
 	$faker = Faker\Factory::create();
 	return $faker;
 });
+$app->container->singleton('v', function () use($config){
+	return v::create();
+});
 
 $app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
 
@@ -79,18 +82,25 @@ $app->get('/greet/:name', function($name) use($app) {
 $app->post('/user', function() use($app) {
 	$name	   = $app->request->post('name');
 	$firstName = $app->request->post('firstName');
+	$valid = true;
+	try {
+		$app->v->alnum()
+		 ->noWhitespace()
+		 ->length(4,22)		 
+		 ->setName('length')
+		 ->setTemplate('Wrong "{{input}}" length')
+		 ->assert($name);
+	} catch (\InvalidArgumentException $e) {
+		$message = $e->findRelated('length');
+		$valid = false;
+	}
 
 	$user = new \IntraworQ\Models\User($name, $firstName);
-	$userValidator = v::attribute(
-		'name', v::string()->length(1, 30),
-		'firstName', v::string()->length(1, 30)
-	);
-
-	if ($userValidator->validate($user)) {
-		$app->log->info("POST: {$name} created");
+	if ($valid) {
+		$app->log->info("POST: \"{$name} {$firstName}\" created");
 	}
 	else {
-		$app->log->error("USER validation FAIL: " . $userValidator->reportError($user));
+		$app->log->error("USER validation FAIL: " . _($message));
 	}
 
 	if($app->request->isAjax()) {

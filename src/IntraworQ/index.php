@@ -14,6 +14,8 @@ textdomain($domain);
 
 $app = new \Slim\Slim([
 	'view' => new \Slim\Views\Smarty(),
+	'debug' => true,
+	'mode' => 'development',
 	'templates.path' => __DIR__ . '/Views',
 	]);
 
