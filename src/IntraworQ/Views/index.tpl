@@ -1,5 +1,7 @@
 {extends file="master.tpl"}
-{block name='title'}Awesome app{/block}
+{block name='title'} {t}IntraworQ - no translation{/t} {/block}
 
-{block name='body'}Hello, world {$debugbarRenderer|@dump} {/block}
-
+{block name='body'} 
+{t}Welcome! {/t} 
+{t}To my site {/t}
+{/block}

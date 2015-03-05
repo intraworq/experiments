@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+{block name='head'}
+{/block}
 <meta charset="UTF-8">
-<title>{block name='title'}My site name{/block}</title>
+<title>{block name='title'} {t}My site name{/t} {/block}</title>
 {$debugbarRenderer->renderHead()}
 </head>
 

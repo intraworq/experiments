@@ -1,3 +1,9 @@
 vendor/
 tmp/
 nbproject/
+*.mo
+translations.po
+.idea/
+assets/jquery/
+assets/angularjs/
+assets/require*
