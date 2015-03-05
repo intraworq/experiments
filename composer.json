@@ -22,8 +22,7 @@
 		"monolog/monolog": "*",
 		"league/period": "*",
 		"nesbot/carbon": "*",
-		 "doctrine/orm": "*",
-		 "vittee/debugbar-doctrine" : "dev-master"
+		 "doctrine/orm": "*"
 	},
 
 	"require-dev": {
