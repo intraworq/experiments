@@ -121,3 +121,7 @@ $app->get('/long', function() use($app) {
 $app->get('/chart', function() use($app){
 	$app->render('chart.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
+
+$app->get('/progress', function() use($app) {
+	$app->render('progress.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+});
