@@ -7,3 +7,4 @@ translations.po
 assets/jquery/
 assets/angularjs/
 assets/require*
+.DS_Store

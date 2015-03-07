@@ -4,11 +4,13 @@ require 'config.php';
 
 use DebugBar\StandardDebugBar;
 use IntraworQ\Models;
+use IntraworQ\Controllers;
 use IntraworQ\Library;
 
 $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
 $container = $builder->build();
+$container->set('App', $app);
 
 Logger::configure($config['logger']);
 
@@ -36,8 +38,19 @@ $app->container->singleton('debugBar', function () use($app, $config){
 	return $debugBar;
 });
 
-$container->set('App', $app);
 $app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
+
+
+// $router = new \IntraworQ\Library\Router($container);
+
+// $routes = array(
+// 	'/' => 'Main:index@get',
+// 	'/hello/:name' => 'User:hello@get'
+// 	);
+
+// $router->addRoutes($routes);
+// $router->set404Handler("Main:_404");
+// $router->run();
 
 $app->get('/', function () use($app) {
 	$app->log->debug("GET: / route");
@@ -103,4 +116,8 @@ $app->post('/long3', function() use($app) {
 
 $app->get('/long', function() use($app) {
 	$app->render('long.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+});
+
+$app->get('/chart', function() use($app){
+	$app->render('chart.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });

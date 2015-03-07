@@ -1,5 +1,4 @@
-<?php 
-namespace IntraworQ\Models;
+<?php namespace IntraworQ\Models;
 /**
 * 
 */
