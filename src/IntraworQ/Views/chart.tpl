@@ -41,7 +41,8 @@
 	var options = {
 		animateScale : false,
 		scaleShowLine : true,
-		animateRotate : false
+		animateRotate : false,
+		percentageInnerCutout : 30
 	}
 	var myDoughnutChart = new Chart(ctx).Doughnut(data,options);
 
