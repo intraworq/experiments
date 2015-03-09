@@ -6,6 +6,7 @@ use DebugBar\StandardDebugBar;
 use IntraworQ\Models;
 use IntraworQ\Library;
 use Respect\Validation\Validator as v;
+use mikehaertl\wkhtmlto\Pdf;
 
 $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
@@ -157,6 +158,13 @@ $app->get('/notes',	function () use($app) {
 	$notes = $stmt->fetchAll();
 	$app->log->debug(json_encode($notes));
 	$app->render('notes.tpl', ['notes'=>$notes]);
+});
+
+$app->get('/pdf',	function () use($app) {
+	$pdf = new Pdf('http://google.pl');
+	$pdf->saveAs(__DIR__.'\tmp\pdf\new.pdf');
+
+	$app->render('index.tpl');
 });
 
 $app->get('/userList',	function () use($app) {

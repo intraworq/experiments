@@ -24,7 +24,8 @@
         "robloach/component-installer": "*",
 		"fzaninotto/faker": "1.4.*",
         "twitter/bootstrap": "3.3.*",
-		"respect/validation": "0.8.*"
+		"respect/validation": "0.8.*",
+		"mikehaertl/phpwkhtmltopdf": "*"
 	},
 
 	"require-dev": {

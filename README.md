@@ -8,3 +8,9 @@ Running tests
 Running application on build in server (in the project folder)
 
 	php -S localhost:8000 -t .
+
+
+WKHTMLTOPDF
+
+On windows install
+http://wkhtmltopdf.org/downloads.html
