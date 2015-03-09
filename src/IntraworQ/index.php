@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$language = "pl_PL";
+$language = "en_US";
 putenv("LANG=" . $language);
 setlocale(LC_ALL, $language);
 

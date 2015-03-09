@@ -11,7 +11,32 @@ $builder = new \DI\ContainerBuilder();
 // $builder->addDefinitions('injections.php');
 $container = $builder->build();
 
-Logger::configure($config['logger']);
+$app->container->singleton('db', function () use($config) {
+	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
+	return $pdo;
+});
+
+$app->container->singleton('log', function () use($config){
+	Logger::configure($config['logger']);
+	return Logger::getLogger('planq');
+});
+
+$app->container->singleton('faker', function () use($config){
+	$faker = Faker\Factory::create();
+	return $faker;
+});
+$app->container->singleton('v', function () use($config){
+	return v::create();
+});
+
+$app->container->singleton('debugBar', function () use($app, $config){
+	$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
+	$debugBar = new DebugBar\StandardDebugBar();
+	$debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
+	return $debugBar;
+});
+$app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
+
 
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
@@ -22,47 +47,18 @@ $view->parserExtensions = array(
 	__DIR__ . '/vendor/smarty-gettext/smarty-gettext'
 );
 
-$app->container->singleton('db', function () use($config) {
-	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
-	return $pdo;
-});
+//Assing default variable debugbarRenderer to all templates
+$view->getInstance()->assign('debugbarRenderer',$app->debugBar->getJavascriptRenderer());
 
-$app->container->singleton('log', function () use($config){
-	Logger::configure($config['logger']);
-	$log = Logger::getLogger('planq');
-	return $log;
-});
-
-$app->container->singleton('debugbar_path', function() {
-	return '/vendor/maximebf/debugbar/src/DebugBar/Resources';
-});
-
-
-$app->container->singleton('debugBar', function () use($app, $config){
-	$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
-	$debugBar = new DebugBar\StandardDebugBar();
-	$debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
-
-	return $debugBar;
-});
-$app->container->singleton('faker', function () use($config){
-	$faker = Faker\Factory::create();
-	return $faker;
-});
-$app->container->singleton('v', function () use($config){
-	return v::create();
-});
-
-$app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
-
-$container->set('App', $app);
-
+/**
+ * ROUTING
+ */
 $app->get('/', function () use($app) {
 	$app->log->debug("GET: / route");
 	$app->log->info("GET: / route");
 	$app->log->error("GET: / route");
 
-    $app->render('index.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+    $app->render('index.tpl');
 });
 
 $app->get('/test', function() {
@@ -76,49 +72,52 @@ $app->get('/hello/:name', function($name) use($app) {
 
 $app->get('/greet/:name', function($name) use($app) {
 	$app->log->info("GET: getting /greet/{$name} route");
-	$app->render('hello.tpl', ['name' => $name, 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('hello.tpl', ['name' => $name]);
 });
 
 $app->post('/user', function() use($app) {
-	$name	   = $app->request->post('name');
+	$name = $app->request->post('name');
 	$firstName = $app->request->post('firstName');
-	$valid = true;
+	$user = new \IntraworQ\Models\User($name,$firstName);
+	$messages = array();
+	$userValidator = $app->v
+			->attribute('name', v::string()->length(4,32))
+            ->attribute('firstName', v::string()->length(4,32));
 	try {
-		$app->v->alnum()
-		 ->noWhitespace()
-		 ->length(4,22)		 
-		 ->setName('length')
-		 ->setTemplate('Wrong "{{input}}" length')
-		 ->assert($name);
-	} catch (\InvalidArgumentException $e) {
-		$message = $e->findRelated('length');
-		$valid = false;
-	}
-
-	$user = new \IntraworQ\Models\User($name, $firstName);
-	if ($valid) {
+		$userValidator->assert($user);
 		$app->log->info("POST: \"{$name} {$firstName}\" created");
-	}
-	else {
-		$app->log->error("USER validation FAIL: " . _($message));
+	} catch (Respect\Validation\Exceptions\NestedValidationExceptionInterface  $e) {
+		$messages = $e->findMessages(
+				[
+					'firstName.length' =>'{{name}} invalid character length',
+					'name.length' =>'{{name}} invalid character length'
+				]
+			);
+		$app->log->error("USER validation FAIL: ".implode(', ',$messages));
 	}
 
 	if($app->request->isAjax()) {
+		$stmt = $app->db->prepare("SELECT * FROM notes");
+		$stmt->execute();
+		$notes = $stmt->fetchAll();
+
 		$app->log->info('got AJAX request');
-		$a = ['user' => $payload . ' created'];
+		$a = ['user' => "{$name} {$firstName} created'"];
+
+		$app->debugBar->sendDataInHeaders();
 		$app->response->write(json_encode($a));
 	} else {
-		$app->render('user.tpl', ['user' => $user, 'debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+		$app->render('user.tpl', ['messages'=>$messages, 'user' => $user]);
 	}
 });
 
 $app->get('/user',	function() use($app) {
 	$user = new \IntraworQ\Models\User($app->faker->lastName, $app->faker->firstNameMale);
-	$app->render('user.tpl', ['user' => $user, 'debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('user.tpl', ['user' => $user]);
 });
 
 $app->get('/user_ajax', function() use($app) {
-	$renderer = $app->debugBar->getJavascriptRenderer($app->debugbar_path);
+	$renderer = $app->debugBar->getJavascriptRenderer();
 	$app->render('user_ajax.tpl', ['debugbarRenderer'=>$renderer]);
 });
 
@@ -142,7 +141,7 @@ $app->post('/long3', function() use($app) {
 });
 
 $app->get('/long', function() use($app) {
-	$app->render('long.tpl', ['debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('long.tpl');
 });
 $app->get('/notes',	function () use($app) {
 	/** sample mesages to debugbar log4pp tab **/
@@ -157,12 +156,12 @@ $app->get('/notes',	function () use($app) {
 	$stmt->execute();
 	$notes = $stmt->fetchAll();
 	$app->log->debug(json_encode($notes));
-	$app->render('notes.tpl', ['notes'=>$notes,'debugbarRenderer' => $app->debugBar->getJavascriptRenderer()]);
+	$app->render('notes.tpl', ['notes'=>$notes]);
 });
 
 $app->get('/userList',	function () use($app) {
 	for($i=0;$i<=10;$i++) {
 		$users[] = new \IntraworQ\Models\User($app->faker->lastName, $app->faker->firstNameMale,$app->faker->text);
 	}
-	$app->render('userList.tpl', ['users' => $users, 'debugbarRenderer'=>$app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('userList.tpl', ['users' => $users]);
 });
