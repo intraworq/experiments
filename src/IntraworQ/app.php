@@ -162,8 +162,12 @@ $app->get('/notes',	function () use($app) {
 
 $app->get('/pdf',	function () use($app) {
 	$pdf = new Pdf('http://google.pl');
-	$pdf->saveAs(__DIR__.'\tmp\pdf\new.pdf');
-
+	$pdf->setOptions([
+        'binary' => "D:\serwer\wkhtmltopdf\bin\wkhtmltopdf.exe" //path to executable file
+	]);
+	if($pdf->saveAs('D:\webroot\experiments\src\IntraworQ\tmp\pdf\new.pdf')) {
+		$app->log->info("PDF file created");
+	}
 	$app->render('index.tpl');
 });
 
