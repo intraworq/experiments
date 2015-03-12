@@ -22,10 +22,16 @@
         "smarty-gettext/smarty-gettext": "~1.1",
         "components/jquery": "~2.1",
         "nnnick/chartjs": "1.0.1.*@dev",
-        "robloach/component-installer": "*"
+        "robloach/component-installer": "*",
+		"maximebf/cachecache": ">=0.1.0",
+		"monolog/monolog": "*",
+		"league/period": "*",
+		"nesbot/carbon": "*",
+		 "doctrine/orm": "*"
 	},
 
 	"require-dev": {
+		"firephp/firephp-core": "dev-master",
         "phpunit/phpunit": "~4.3",
         "mockery/mockery": "~0.9",
         "fzaninotto/faker": "~1.4",
@@ -35,8 +41,10 @@
 
 	"autoload": {
 		"psr-4" : {
-			"IntraworQ\\": "src/IntraworQ/"
-		}
+			"IntraworQ\\": "src/IntraworQ/",
+			"PHPeriod\\": "src/IntraworQ/Library/PHPeriod/"
+		},
+		"psr-0": {"": "src/IntraworQ/entities"}
 	},
 
 	"config": {
