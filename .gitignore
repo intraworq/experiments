@@ -8,3 +8,4 @@ assets/jquery/
 assets/angularjs/
 assets/require*
 .DS_Store
+/composer.lock
