@@ -21,6 +21,7 @@
         "symfony/var-dumper": "~2.6",
         "smarty-gettext/smarty-gettext": "~1.1",
         "components/jquery": "~2.1",
+		"components/jqueryui": "~1.11",
         "nnnick/chartjs": "1.0.1.*@dev",
         "robloach/component-installer": "*",
 		"maximebf/cachecache": ">=0.1.0",

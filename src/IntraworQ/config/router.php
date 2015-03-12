@@ -87,6 +87,11 @@ $app->get('/progress',
 	$app->render('progress.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
 });
 
+$app->get('/jqueryui',
+	function() use($app) {
+	$app->render('jqueryui.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+});
+
 $app->get('/setCache',
 	function () use($app) {
 	//test cache

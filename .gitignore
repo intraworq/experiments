@@ -9,3 +9,4 @@ assets/angularjs/
 assets/require*
 .DS_Store
 /composer.lock
+/assets/jquery-ui
