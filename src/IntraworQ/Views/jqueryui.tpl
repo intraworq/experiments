@@ -32,7 +32,7 @@
 		$.datepicker.setDefaults($.datepicker.regional['pl']);
 		
 		$("#accordion").accordion();
-		$(document).tooltip();
+		$("#age").tooltip();
 		$("#datepicker").datepicker();
 		
 		var progressbar = $("#progressbar"), progressLabel = $(".progress-label");
