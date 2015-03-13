@@ -2,7 +2,8 @@
 
 class Main extends Controller {
 	
-	public function index()	{
+	public function index() {
+
 		$this->renderView("index");
 	}
 

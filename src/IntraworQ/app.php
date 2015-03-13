@@ -21,9 +21,9 @@ use IntraworQ\Controllers;
 use IntraworQ\Library;
 
 $builder = new \DI\ContainerBuilder();
-// $builder->addDefinitions('injections.php');
+$builder->addDefinitions(__DIR__ . '/config/injections.php');
 $container = $builder->build();
-$container->set('App', $app);
+
 
 Logger::configure($config['logger']);
 
@@ -48,14 +48,15 @@ $app->debugBar->addCollector(new DebugBar\Bridge\DoctrineCollector($entityManage
 //pdo
 $pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
 $app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
-// $router = new \IntraworQ\Library\Router($container);
+$container->set('App', $app);
+$router = new \IntraworQ\Library\Router($container);
 
-// $routes = array(
-// 	'/' => 'Main:index@get',
-// 	'/hello/:name' => 'User:hello@get'
-// 	);
+ $routes = array(
+ 	'/' => 'Main:index@get',
+ 	'/hello/:name' => 'User:index@get'
+);
 
-// $router->addRoutes($routes);
-// $router->set404Handler("Main:_404");
-// $router->run();
-require_once 'config/router.php';
+ $router->addRoutes($routes);
+ $router->set404Handler("Main:_404");
+ $router->run();
+ //require_once 'config/router.php';

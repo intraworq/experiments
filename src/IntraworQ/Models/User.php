@@ -2,7 +2,8 @@
 /**
 * 
 */
-class User {
+class User extends Model {
+
 	protected $id;
 	protected $name;
 

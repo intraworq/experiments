@@ -41,7 +41,7 @@ class Router {
 		$function = ($path != "") ? $path : "index";
 
 		$func = function () use ($class, $function) {
-			$className = '\PlanQ\Controllers\\' . $class;
+			$className = '\IntraworQ\Controllers\\' . $class;
 			$class = $this->container->get($className);
 
 			$args = func_get_args();
