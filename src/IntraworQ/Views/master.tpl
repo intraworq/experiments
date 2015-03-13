@@ -5,12 +5,12 @@
 {/block}
 <meta charset="UTF-8">
 <title>{block name='title'} {t}My site name{/t} {/block}</title>
-{$debugbarRenderer->renderHead()}
+{if isset($debugbarRenderer)}{$debugbarRenderer->renderHead()}{/if}
 </head>
 
 <body>
 {block name='body'}{/block}
-{$debugbarRenderer->render()}
+{if isset($debugbarRenderer)}{$debugbarRenderer->render()}{/if}
 </body>
 
 </html>

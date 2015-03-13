@@ -11,14 +11,7 @@ bind_textdomain_codeset($domain, 'UTF-8');
 bindtextdomain($domain, $path); 
 textdomain($domain);
 
-//definicja cache
-$cache = \CacheCache\CacheManager::factory(array(
-		'backend' => 'CacheCache\Backends\Memcache',
-		'backend_args' => array(array(
-				'host' => 'localhost',
-				'port' => 11211
-			))
-	));
+
 
 $app = new \Slim\Slim([
 	'view' => new Slim\Views\Smarty(),

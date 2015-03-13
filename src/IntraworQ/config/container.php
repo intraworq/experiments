@@ -1,7 +1,14 @@
 <?php
-
+//definicja cache
+$cache = \CacheCache\CacheManager::factory(array(
+		'backend' => 'CacheCache\Backends\Memcache',
+		'backend_args' => array(array(
+				'host' => 'localhost',
+				'port' => 11211
+			))
+	));
 //kontenery
-$app->container->singleton('debugBar', function () use($app, $config) {
+$app->container->singleton('debugBar', function () use($app) {
 	$debugBar = new DebugBar\StandardDebugBar();
 	return $debugBar;
 });
@@ -30,9 +37,9 @@ $app->container->singleton('exceptions', function () use($app) {
 	return $app->debugBar->getCollector('exceptions');
 });
 
-$app->container->singleton('doctrine', function () use($entityManager) {
-	return $entityManager;
-});
+//$app->container->singleton('doctrine', function () use($entityManager) {
+//	return $entityManager;
+//});
 
 
 $app->container->singleton('db',

@@ -22,8 +22,9 @@ class LocalWebTestCase extends WebTestCase {
 
 		$app = new \Slim\Slim([
 			'view' => new \Slim\Views\Smarty(),
-			'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views'
-			]);
+			'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views',
+			'debug' => false
+		]);
 
 		$domain = 'messages';
 		$path = PROJECT_ROOT . '/src/IntraworQ/i18n';
