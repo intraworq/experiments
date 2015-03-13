@@ -27,8 +27,8 @@
 						<li><a href="/">MainPage</a>
 						<li><a href="/notes">Notes</a>
 						<li><a href="/userList">Users list</a>
-						<li><a href="/user">User Form</a>
-						<li><a href="/user_ajax">User Ajax</a>
+						<li><a href="/user/form">User Form</a>
+						<li><a href="/user/user_ajax">User Ajax</a>
 					</ul>
 				</div>
 			</div>

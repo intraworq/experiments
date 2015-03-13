@@ -11,7 +11,7 @@
 			{/foreach}
 		</div>
 	{/if}
-	<form method="POST" name='user' id='form' action="/user">
+	<form method="POST" name='user' id='form' action="/user/save">
 		<div class="input-group">
 			<div><input class="form-control" type="text" name='name' id='name' placeholder="Insert name" value="{$user->getName()}" autocomplete="off"/></div>
 			<div><input class="form-control" type="text" name='firstName' id='firstName' placeholder="Insert firstName" value="{$user->getFirstName()}" autocomplete="off"/></div>

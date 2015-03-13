@@ -6,7 +6,7 @@
 
 {block name='body'} 
 	<h3>Create new user AJAX</h3>
-	<form method="post" name='user' id='form' action="/user">
+	<form method="post" name='user' id='form' action="/user/save">
 		<div class="input-group">
 			<div><input class="form-control" type="text" name='name' id='name' placeholder="Insert name" value="" autocomplete="off"/></div>
 			<div><input class="form-control" type="text" name='firstName' id='firstName' placeholder="Insert firstName" value="" autocomplete="off"/></div>
@@ -25,7 +25,7 @@
 
 				$.ajax({
 					type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
-					url: '/user', // the url where we want to POST
+					url: '/user/save', // the url where we want to POST
 					data: formData, // our data object
 					dataType: 'json', // what type of data do we expect back from the server
 					encode: true

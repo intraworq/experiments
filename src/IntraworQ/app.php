@@ -76,51 +76,17 @@ $app->get('/greet/:name', function($name) use($app) {
 	$app->render('hello.tpl', ['name' => $name]);
 });
 
-$app->post('/user', function() use($app) {
-	$name = $app->request->post('name');
-	$firstName = $app->request->post('firstName');
-	$user = new \IntraworQ\Models\User($name,$firstName);
-	$messages = array();
-	$userValidator = $app->v
-			->attribute('name', v::string()->length(4,32))
-            ->attribute('firstName', v::string()->length(4,32));
-	try {
-		$userValidator->assert($user);
-		$app->log->info("POST: \"{$name} {$firstName}\" created");
-	} catch (Respect\Validation\Exceptions\NestedValidationExceptionInterface  $e) {
-		$messages = $e->findMessages(
-				[
-					'firstName.length' =>'{{name}} invalid character length',
-					'name.length' =>'{{name}} invalid character length'
-				]
-			);
-		$app->log->error("USER validation FAIL: ".implode(', ',$messages));
-	}
 
-	if($app->request->isAjax()) {
-		$stmt = $app->db->prepare("SELECT * FROM notes");
-		$stmt->execute();
-		$notes = $stmt->fetchAll();
+/** User group **/
+$app->group('/user', function() use ($app) {
+	$app->get('/form', 'IntraworQ\Controllers\userController:userForm');
+	$app->get('/user_ajax', 'IntraworQ\Controllers\userController:userAjax');
+	$app->map('/save', 'IntraworQ\Controllers\userController:userSave')->via('GET','POST');
 
-		$app->log->info('got AJAX request');
-		$a = ['user' => "{$name} {$firstName} created'"];
-
-		$app->debugBar->sendDataInHeaders();
-		$app->response->write(json_encode($a));
-	} else {
-		$app->render('user.tpl', ['messages'=>$messages, 'user' => $user]);
-	}
 });
 
-$app->get('/user',	function() use($app) {
-	$user = new \IntraworQ\Models\User($app->faker->lastName, $app->faker->firstNameMale);
-	$app->render('user.tpl', ['user' => $user]);
-});
+/** end user group **/
 
-$app->get('/user_ajax', function() use($app) {
-	$renderer = $app->debugBar->getJavascriptRenderer();
-	$app->render('user_ajax.tpl', ['debugbarRenderer'=>$renderer]);
-});
 
 $app->post('/long1', function() use($app) {
 	$app->log->info('/long1');
