@@ -1,13 +1,7 @@
 <?php
 
 //kontenery
-
-$app->container->singleton('debugbar_path', function() {
-	return '/../../vendor/maximebf/debugbar/src/DebugBar/Resources';
-});
-
-$app->container->singleton('debugBar',
-	function () use($app, $config) {
+$app->container->singleton('debugBar', function () use($app, $config) {
 	$debugBar = new DebugBar\StandardDebugBar();
 	return $debugBar;
 });

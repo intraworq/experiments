@@ -16,8 +16,7 @@ abstract class Controller extends \Slim\Slim
 	}
 
 	public function renderView($name, $extension = '.tpl', $params = array(), $status = null) {
-		$params = array_merge(['name' => $name, 'debugbarRenderer' => $this->app->debugBar->getJavascriptRenderer($this->app->debugbar_path)],
-			$params);
+		$params = array_merge(['name' => $name],$params);
 		$this->app->render($name . $extension,
 			$params, $status);
 	}

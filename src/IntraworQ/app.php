@@ -27,6 +27,8 @@ $container = $builder->build();
 
 Logger::configure($config['logger']);
 
+require_once 'config/container.php';
+
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
 $view->parserCompileDirectory = __DIR__ . '/tmp/compiled';
@@ -36,7 +38,8 @@ $view->parserExtensions = array(
 	__DIR__ . '/vendor/smarty-gettext/smarty-gettext'
 	);
 
-	require_once 'config/container.php';
+$view->getInstance()->assign('debugbarRenderer',$app->debugBar->getJavascriptRenderer());
+
 
 $app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
 
