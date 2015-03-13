@@ -6,7 +6,7 @@ $app->get('/',
 	$app->log->info("GET: / route");
 	$app->log->error("GET: / route");
 
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 
 $app->get('/test', function() {
@@ -22,7 +22,7 @@ $app->get('/hello/:name',
 $app->get('/greet/:name',
 	function($name) use($app) {
 	$app->log->info("GET: getting /greet/{$name} route");
-	$app->render('hello.tpl', ['name' => $name, 'debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('hello.tpl');
 });
 
 $app->post('/user',
@@ -38,16 +38,13 @@ $app->post('/user',
 	}
 });
 
-$app->get('/user',
-	function() use($app) {
-	$app->render('user.tpl',
-		['user' => new \IntraworQ\Models\User("George"), 'debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+$app->get('/user',function() use($app) {
+	$app->render('user.tpl',['user' => new \IntraworQ\Models\User("George")]);
 });
 
 $app->get('/user_ajax',
 	function() use($app) {
-	$renderer = $app->debugBar->getJavascriptRenderer($app->debugbar_path);
-	$app->render('user_ajax.tpl', ['debugbarRenderer' => $renderer]);
+	$app->render('user_ajax.tpl');
 });
 
 $app->post('/long1',
@@ -74,22 +71,22 @@ $app->post('/long3',
 
 $app->get('/long',
 	function() use($app) {
-	$app->render('long.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('long.tpl');
 });
 
 $app->get('/chart',
 	function() use($app) {
-	$app->render('chart.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('chart.tpl');
 });
 
 $app->get('/progress',
 	function() use($app) {
-	$app->render('progress.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('progress.tpl');
 });
 
 $app->get('/jqueryui',
 	function() use($app) {
-	$app->render('jqueryui.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('jqueryui.tpl');
 });
 
 $app->get('/setCache',
@@ -101,13 +98,13 @@ $app->get('/setCache',
 	$app->cache->set('array', array('sadf'));
 	$app->cache->set('string', 'fsd');
 
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 $app->get('/cache',
 	function () use($app) {
 	$app->cache->get('object');
 	$app->message->addMessage($app->cache->get('object'));
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 $app->get('/leaguePeriod',
 	function () use($app) {
@@ -128,7 +125,7 @@ $app->get('/leaguePeriod',
 	dump(array($start, $end));
 
 
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 
 $app->get('/phpPeriod',
@@ -141,7 +138,7 @@ $app->get('/phpPeriod',
 	$p->append($pp2);
 	dump($p);
 
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 
 $app->get('/notes',
@@ -156,7 +153,7 @@ $app->get('/notes',
 	$stmt = $app->db->prepare("SELECT * FROM tebook");
 	$stmt->execute();
 	$app->message->debug($stmt->fetchAll());
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 //time line
 $app->get('/message/(:news)',
@@ -168,7 +165,7 @@ $app->get('/message/(:news)',
 	$app->time->measure('In function sleep', function() {
 		sleep(2);
 	});
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 
 $app->get('/exceptions',
@@ -180,7 +177,7 @@ $app->get('/exceptions',
 	}
 
 
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 
 $app->get('/create/:name',
@@ -195,7 +192,7 @@ $app->get('/create/:name',
 
 	echo "Created Product with ID " . $product->getId() . "\n";
 
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
 
 $app->get('/list',
@@ -208,5 +205,5 @@ $app->get('/list',
 		echo sprintf("-%s\n", $product->getName());
 		echo'<br>';
 	}
-	$app->render('index.tpl', ['debugbarRenderer' => $app->debugBar->getJavascriptRenderer($app->debugbar_path)]);
+	$app->render('index.tpl');
 });
