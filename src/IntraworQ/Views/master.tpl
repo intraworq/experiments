@@ -25,8 +25,8 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="/">MainPage</a>
-						<li><a href="/notes">Notes</a>
-						<li><a href="/userList">Users list</a>
+						<li><a href="/notes/notesList">Notes</a>
+						<li><a href="/user/userList">Users list</a>
 						<li><a href="/user/form">User Form</a>
 						<li><a href="/user/user_ajax">User Ajax</a>
 					</ul>

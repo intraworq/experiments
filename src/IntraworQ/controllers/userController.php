@@ -20,6 +20,13 @@ class userController extends BaseController {
 		$this->app->render('user_ajax.tpl');
 	}
 
+	public function userList() {
+		for($i=0;$i<=10;$i++) {
+			$users[] = new \IntraworQ\Models\User($this->app->faker->lastName, $this->app->faker->firstNameMale,$this->app->faker->text);
+		}
+		$this->app->render('userList.tpl', ['users' => $users]);
+	}
+
 	public function userSave() {
 		$name = $this->app->request->post('name');
 		$firstName = $this->app->request->post('firstName');

@@ -51,9 +51,25 @@ $view->parserExtensions = array(
 //Assing default variable debugbarRenderer to all templates
 $view->getInstance()->assign('debugbarRenderer',$app->debugBar->getJavascriptRenderer());
 
-/**
- * ROUTING
- */
+/** ROUTING */
+
+/** Notes group **/
+$app->group('/notes', function() use ($app) {
+	$app->get('/notesList',	'IntraworQ\Controllers\notesController:notesList');	
+});
+/** end */
+
+/** User group **/
+$app->group('/user', function() use ($app) {
+	$app->get('/form', 'IntraworQ\Controllers\userController:userForm');
+	$app->get('/user_ajax', 'IntraworQ\Controllers\userController:userAjax');
+	$app->get('/userList',	'IntraworQ\Controllers\userController:userList');
+	$app->map('/save', 'IntraworQ\Controllers\userController:userSave')->via('GET','POST');
+
+});
+/** end user group **/
+
+/** Others */
 $app->get('/', function () use($app) {
 	$app->log->debug("GET: / route");
 	$app->log->info("GET: / route");
@@ -75,18 +91,6 @@ $app->get('/greet/:name', function($name) use($app) {
 	$app->log->info("GET: getting /greet/{$name} route");
 	$app->render('hello.tpl', ['name' => $name]);
 });
-
-
-/** User group **/
-$app->group('/user', function() use ($app) {
-	$app->get('/form', 'IntraworQ\Controllers\userController:userForm');
-	$app->get('/user_ajax', 'IntraworQ\Controllers\userController:userAjax');
-	$app->map('/save', 'IntraworQ\Controllers\userController:userSave')->via('GET','POST');
-
-});
-
-/** end user group **/
-
 
 $app->post('/long1', function() use($app) {
 	$app->log->info('/long1');
@@ -110,21 +114,7 @@ $app->post('/long3', function() use($app) {
 $app->get('/long', function() use($app) {
 	$app->render('long.tpl');
 });
-$app->get('/notes',	function () use($app) {
-	/** sample mesages to debugbar log4pp tab **/
-	$app->log->debug("/notes route debug");
-	$app->log->error("error");
-	$app->log->fatal("fatal error ");
-	$app->log->warn("warning");
-	$app->log->info("info");
 
-	//database log query example
-	$stmt = $app->db->prepare("SELECT * FROM notes");
-	$stmt->execute();
-	$notes = $stmt->fetchAll();
-	$app->log->debug(json_encode($notes));
-	$app->render('notes.tpl', ['notes'=>$notes]);
-});
 
 $app->get('/pdf',	function () use($app) {
 	$pdf = new Pdf('http://google.pl');
@@ -138,11 +128,4 @@ $app->get('/pdf',	function () use($app) {
 		$app->log->error($pdf->getError());
 	}
 	$app->render('index.tpl');
-});
-
-$app->get('/userList',	function () use($app) {
-	for($i=0;$i<=10;$i++) {
-		$users[] = new \IntraworQ\Models\User($app->faker->lastName, $app->faker->firstNameMale,$app->faker->text);
-	}
-	$app->render('userList.tpl', ['users' => $users]);
 });
