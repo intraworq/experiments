@@ -1,6 +1,5 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
-require_once 'config/bootstrap.php';
 $language = "pl_PL";
 putenv("LANG=" . $language);
 setlocale(LC_ALL, $language);

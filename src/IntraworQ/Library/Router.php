@@ -60,6 +60,7 @@ class Router {
 		foreach ($this->routes as $i => $route) {
 			if ($route->matches($uri)) {
 				if ($route->supportsHttpMethod($method) || $route->supportsHttpMethod("ANY")) {
+
 					call_user_func_array($route->getCallable(), array_values($route->getParams()));
 					$display404 = false;
 				}

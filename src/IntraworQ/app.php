@@ -1,5 +1,5 @@
 <?php
-
+require_once 'config/bootstrap.php';
 require 'config.php';
 
 //cookie
@@ -60,5 +60,9 @@ $routes = array(
 
 $router->addRoutes($routes);
 $router->set404Handler("Main:_404");
+$app->container->singleton('routing', function () use($router) {
+
+	return $router;
+});
 $router->run();
 //require_once 'config/router.php';
