@@ -2,6 +2,5 @@
 {block name='title'} {t}IntraworQ - no translation{/t} {/block}
 
 {block name='body'} 
-{t}Welcome! {/t} 
-{t}To my site {/t}
+<h1>{t}Welcome! {/t}{t}To my site{/t}</h1>
 {/block}

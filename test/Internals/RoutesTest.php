@@ -1,4 +1,5 @@
 <?php
+use Symfony\Component\DomCrawler\Crawler;
 
 class RoutesTest extends LocalWebTestCase
 {
@@ -7,6 +8,13 @@ class RoutesTest extends LocalWebTestCase
 		putenv("LANG=" . $language);
 		setlocale(LC_ALL, $language);
 		$this->client->get('/');
+
+		$crawler = new Crawler($this->client->response->body());
+
+		$this->assertEquals('Witaj! Na mojej stronie', $crawler->filterXPath('html/body/h1')->text());
+		$this->assertEquals(200, $this->client->response->status());
+		$this->assertRegExp("/Na mojej stronie/", $this->client->response->body());
+
 		$this->assertEquals(200, $this->client->response->status());
 		$this->assertRegExp("/Na mojej stronie/", $this->client->response->body());
 	}

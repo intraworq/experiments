@@ -38,7 +38,8 @@
         "fzaninotto/faker": "~1.4",
         "there4/slim-test-helpers": "~0.9",
         "facebook/webdriver": "dev-master",
-		"psy/psysh": "@stable"
+		"psy/psysh": "@stable",
+		"symfony/dom-crawler": "2.4.9"
     },
 
 	"autoload": {
