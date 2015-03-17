@@ -13,6 +13,7 @@
 	"require": {
 		"php": "~5.5",
 		"slim/slim": "~2.4",
+		"slim/middleware": "*",
 		"apache/log4php": "~2.3",
 		"slim/views": "~0.1",
         "smarty/smarty": "~3.1",
