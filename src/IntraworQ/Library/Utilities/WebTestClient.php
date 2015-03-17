@@ -50,10 +50,11 @@ class WebTestClient {
 		// Prepare a mock environment
 		Slim\Environment::mock(array_merge($options, $optionalHeaders));
 
-		$this->app->routing->run();
 
 		// Establish some useful references to the slim app properties
 		$this->request = $this->app->request();
+		$this->app->routing->setRequest($this->request);
+		$this->app->routing->run();
 		$this->app->response()->setBody(ob_get_contents());
 		$this->response = $this->app->response();
 		// Return the application output. Also available in `response->body()`

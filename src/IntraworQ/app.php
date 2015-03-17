@@ -64,5 +64,4 @@ $app->container->singleton('routing', function () use($router) {
 
 	return $router;
 });
-$router->run();
-//require_once 'config/router.php';
+

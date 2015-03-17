@@ -12,6 +12,7 @@ class Main extends Controller {
 		$request = new \Slim\Http\Request($env);
 		$uri = $request->getResourceUri();
 		$this->view()->set('uri', $uri);
+		$this->app->response()->setStatus(404);
 		$this->renderView('404');
 	}
 }

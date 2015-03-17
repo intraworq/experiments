@@ -7,6 +7,7 @@ class Router {
 	protected $container;
 
 	public function __construct(\DI\Container $container) {
+
 		$this->container = $container;
 		$env = \Slim\Environment::getInstance();
 		$this->request = new \Slim\Http\Request($env);
@@ -14,6 +15,7 @@ class Router {
 	}
 
 	public function addRoutes($routes) {
+
 		foreach ($routes as $route => $path) {
 
 			$method = "any";
@@ -32,27 +34,28 @@ class Router {
 	}
 
 	protected function processCallback($path) {
-		$class = "Main";
 
 		if (strpos($path, ":") !== false) {
 			list($class, $path) = explode(":", $path);
 		}
 
 		$function = ($path != "") ? $path : "index";
-
 		$func = function () use ($class, $function) {
 			$className = '\IntraworQ\Controllers\\' . $class;
+
 			$class = $this->container->get($className);
 
 			$args = func_get_args();
 
 			return call_user_func_array(array($class, $function), $args);
 		};
+		
 
 		return $func;
 	}
 
 	public function run() {
+
 		$display404 = true;
 		$uri = $this->request->getResourceUri();
 		$method = $this->request->getMethod();
@@ -79,4 +82,9 @@ class Router {
 	public function set404Handler($path) {
 		$this->errorHandler = $this->processCallback($path);
 	}
+
+	public function setRequest($request) {
+		$this->request = $request;
+	}
+
 }

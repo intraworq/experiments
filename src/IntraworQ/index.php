@@ -17,6 +17,5 @@ $app = new \Slim\Slim([
 	'templates.path' => __DIR__ . '/Views'
 	]);
 require_once 'app.php';
-
-//$app->run();
+$router->run();
 ?>
