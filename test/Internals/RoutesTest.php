@@ -25,13 +25,12 @@ class RoutesTest extends LocalWebTestCase
 		$this->assertEquals("Hello, George", $this->client->response->body());
 	}
 
-	public function test_localization_for_route_pl_PL() {
+	public function test_not_found_site() {
 		$language = "pl_PL";
 		putenv("LANG=" . $language);
 		setlocale(LC_ALL, $language);
 		$this->client->get('/greet/George');
 		$this->assertEquals(404, $this->client->response->status());
-//		$this->assertRegExp("/Witaj, George/", $this->client->response->body());
 	}
 
 	public function test_localization_for_route_en_US() {
