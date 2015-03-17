@@ -4,4 +4,5 @@
 {block name='body'} 
 {t}Welcome! {/t} 
 {t}To my site {/t}
+<h2>Witam</h2>
 {/block}
