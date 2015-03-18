@@ -1,4 +1,5 @@
 <?php
+
 // Settings to make all errors more obvious during testing
 error_reporting(-1);
 ini_set('display_errors', 1);
@@ -13,26 +14,32 @@ require_once PROJECT_ROOT . '/vendor/autoload.php';
 
 // Initialize our own copy of the slim application
 class LocalWebTestCase extends WebTestCase {
+
+	public static $slimInstance = null;
+
 	public function getSlimInstance() {
-		
-		\Slim\Environment::mock(array_merge(array(
-			'SERVER_NAME'    => 'local.dev',
-			'mode'    => 'testing'
+
+		if (is_null(self::$slimInstance)) {
+			\Slim\Environment::mock(array_merge(array(
+				'SERVER_NAME' => 'local.dev',
+				'mode' => 'testing'
 			)));
 
-		$app = new \Slim\Slim([
-			'view' => new \Slim\Views\Smarty(),
-			'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views'
+			$app = new IntraworQ\Library\IwqSlim([
+				'view' => new \Slim\Views\Smarty(),
+				'debug' => false,
+				'mode' => 'testing',
+				'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views',
 			]);
 
-		$domain = 'messages';
-		$path = PROJECT_ROOT . '/src/IntraworQ/i18n';
-		bind_textdomain_codeset($domain, 'UTF-8');
-		bindtextdomain($domain, $path); 
-		textdomain($domain);
-      // Include our core application file
-		require PROJECT_ROOT . '/src/IntraworQ/app.php';
+			// Include our core application file
+			require PROJECT_ROOT . '/src/IntraworQ/app.php';
+			self::$slimInstance = $app;
+		}
 
-		return $app;
+		return self::$slimInstance;
 	}
-};
+
+}
+
+;

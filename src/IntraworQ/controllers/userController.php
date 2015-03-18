@@ -9,7 +9,6 @@ use Respect\Validation\Validator as v;
  */
 class userController extends BaseController {
 
-	
 	public function userForm() {
 		$user = new \IntraworQ\Models\User($this->app->faker->lastName, $this->app->faker->firstNameMale);
 		$this->app->render('user.tpl', ['user' => $user,'messages'=>array()]);

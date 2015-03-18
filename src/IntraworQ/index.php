@@ -12,7 +12,7 @@ bind_textdomain_codeset($domain, 'UTF-8');
 bindtextdomain($domain, $path); 
 textdomain($domain);
 
-$app = new \Slim\Slim([
+$app = new IntraworQ\Library\IwqSlim([
 	'view' => new \Slim\Views\Smarty(),
 	'debug' => true,
 	'mode' => 'development',

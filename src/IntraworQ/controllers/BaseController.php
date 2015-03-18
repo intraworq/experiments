@@ -2,14 +2,11 @@
 
 namespace IntraworQ\Controllers;
 
-
 abstract class BaseController {
 
 	public $app;
 
-	public function __construct() {
-		$this->app = \Slim\Slim::getInstance();
+	public function __construct(\IntraworQ\Library\IwqSlim $app) {
+		$this->app = $app;
 	}
-
 }
-
