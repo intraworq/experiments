@@ -43,11 +43,18 @@ class LocalWebTestCase extends WebTestCase {
 		$builder = new \DI\ContainerBuilder();
 		$builder->addDefinitions(PROJECT_ROOT . '/src/IntraworQ/config/injections.php');
 		$container = $builder->build();
-		$container->set('App', $app);
+		
 		// Include our core application file
 		require PROJECT_ROOT . '/src/IntraworQ/app.php';
-		require_once PROJECT_ROOT . '/src/IntraworQ/config/router.php';
+		require PROJECT_ROOT . '/src/IntraworQ/config/router.php';
 
 		return $app;
 	}
+
+	public function tearDown() {
+		$this->app = null;
+
+		$this->client = null;
+	}
+
 };

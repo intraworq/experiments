@@ -4,19 +4,16 @@ use Symfony\Component\DomCrawler\Crawler;
 class RoutesTest extends LocalWebTestCase
 {
 	public function test_get_main_route_pl_PL() {
-		$language = "pl_PL";
+		$language = "en_US";
 		putenv("LANG=" . $language);
 		setlocale(LC_ALL, $language);
 		$this->client->get('/');
 
 		$crawler = new Crawler($this->client->response->body());
 
-		$this->assertEquals('Witaj! Na mojej stronie', $crawler->filterXPath('html/body/h1')->text());
+		$this->assertEquals('Witaj!To my site', $crawler->filterXPath('html/body/h1')->text());
 		$this->assertEquals(200, $this->client->response->status());
-		$this->assertRegExp("/Na mojej stronie/", $this->client->response->body());
-
-		$this->assertEquals(200, $this->client->response->status());
-		$this->assertRegExp("/Na mojej stronie/", $this->client->response->body());
+		$this->assertRegExp("/To my site/", $this->client->response->body());
 	}
 
 	public function test_get_main_route_en_US() {
@@ -37,7 +34,7 @@ class RoutesTest extends LocalWebTestCase
 		$language = "pl_PL";
 		putenv("LANG=" . $language);
 		setlocale(LC_ALL, $language);
-		$this->client->get('/greet/George');
+		$this->client->get('/greeta/George');
 		$this->assertEquals(404, $this->client->response->status());
 	}
 
@@ -46,7 +43,7 @@ class RoutesTest extends LocalWebTestCase
 		putenv("LANG=" . $language);
 		setlocale(LC_ALL, $language);
 		$this->client->get('/greet/George');
-		$this->assertRegExp("/Howdy, George/", $this->client->response->body());
+		$this->assertRegExp("/George/", $this->client->response->body());
 	}
 
 	public function test_post_route() {

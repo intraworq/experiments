@@ -12,10 +12,10 @@ $app->get('/hello/:name',
 	echo "Hello, {$name}";
 });
 
-$app->get('/greeta/:name',
+$app->get('/greet/:name',
 	function($name) use($app) {
 	$app->log->info("GET: getting /greet/{$name} route");
-	$app->render('hello.tpl');
+	$app->render('hello.tpl', ['name' => $name]);
 });
 
 $app->post('/user',

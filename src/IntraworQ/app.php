@@ -1,6 +1,6 @@
 <?php
 require_once 'config/bootstrap.php';
-require 'config.php';
+require'config.php';
 
 //cookie
 $app->add(new \Slim\Middleware\SessionCookie(array(
@@ -46,6 +46,7 @@ $app->debugBar->addCollector(new DebugBar\Bridge\DoctrineCollector($entityManage
 $pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
 $app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 }
+$container->set('App', $app);
 $app->container->singleton('router', function () use ($container) {
 	return new Library\Slim\Router($container);
 });
