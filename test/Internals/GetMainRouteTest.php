@@ -10,9 +10,9 @@ class GetMainRoute extends LocalWebTestCase
 
 	public function test_get_main_route()
     {
-        $this->client->get('/sssadfds');
+        $this->client->get('/');
         $this->assertEquals(200, $this->client->response->status());
-//        $this->assertRegExp("/Welcome/", $this->client->response->body());
+        $this->assertRegExp("/Welcome/", $this->client->response->body());
     }
 
 }

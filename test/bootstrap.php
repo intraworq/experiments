@@ -19,9 +19,8 @@ class LocalWebTestCase extends WebTestCase {
 
 	public function getSlimInstance() {
 
-		if (is_null(self::$slimInstance)) {
+//		if (is_null(self::$slimInstance)) {
 			\Slim\Environment::mock(array_merge(array(
-				'SERVER_NAME' => 'local.dev',
 				'mode' => 'testing'
 			)));
 
@@ -34,10 +33,10 @@ class LocalWebTestCase extends WebTestCase {
 
 			// Include our core application file
 			require PROJECT_ROOT . '/src/IntraworQ/app.php';
-			self::$slimInstance = $app;
-		}
+//			self::$slimInstance = $app;
+//		}
 
-		return self::$slimInstance;
+		return $app;
 	}
 
 }

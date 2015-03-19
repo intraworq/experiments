@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/../../vendor/autoload.php';
+define('PROJECT_ROOT', realpath(__DIR__ . '/..'));
 
 $language = "en_US";
 putenv("LANG=" . $language);

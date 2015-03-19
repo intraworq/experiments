@@ -5,8 +5,8 @@ require 'config.php';
 use IntraworQ\Models;
 use IntraworQ\Library;
 
-include_once __DIR__ . '/config/containers.php';
-include_once __DIR__ . '/config/routes.php';
+include __DIR__ . '/config/containers.php';
+include __DIR__ . '/config/routes.php';
 
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
