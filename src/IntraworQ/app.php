@@ -1,6 +1,7 @@
 <?php
-require_once 'config/bootstrap.php';
-require'config.php';
+
+require 'config/bootstrap.php';
+require 'config.php';
 
 //cookie
 $app->add(new \Slim\Middleware\SessionCookie(array(
@@ -20,10 +21,10 @@ use IntraworQ\Models;
 use IntraworQ\Controllers;
 use IntraworQ\Library;
 
-
 Logger::configure($config['logger']);
 
-require_once 'config/container.php';
+require 'config/container.php';
+require 'config/router.php';
 
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
@@ -33,20 +34,5 @@ $view->parserExtensions = array(
 	__DIR__ . '/vendor/slim/views/Slim/Views/SmartyPlugins',
 	__DIR__ . '/vendor/smarty-gettext/smarty-gettext'
 );
+
 $view->getInstance()->assign('debugbarRenderer', $app->config('debug') ? $app->debugBar->getJavascriptRenderer() : null);
-
-if ($app->config('debug')) {
-	$app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
-
-//doctrine
-$debugStack = new \Doctrine\DBAL\Logging\DebugStack();
-$entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
-$app->debugBar->addCollector(new DebugBar\Bridge\DoctrineCollector($entityManager));
-//pdo
-$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
-$app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
-}
-$container->set('App', $app);
-$app->container->singleton('router', function () use ($container) {
-	return new Library\Slim\Router($container);
-});

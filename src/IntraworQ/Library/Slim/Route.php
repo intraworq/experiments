@@ -3,8 +3,13 @@ namespace IntraworQ\Library\Slim;
 
 class Route extends \Slim\Route {
 
+	/**
+	 *
+	 * @var \DI\Container
+	 */
 	private $container;
-   /**
+
+	/**
 	 * Set route callable
 	 * @param  mixed $callable
 	 * @throws \InvalidArgumentException If argument is not callable

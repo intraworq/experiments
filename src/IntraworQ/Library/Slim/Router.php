@@ -19,10 +19,25 @@ class Router extends \Slim\Router {
 	}
 
 	/**
+	 * @see \Slim\Router::map()
+	 * 
+	 * @param \Slim\Route $route
+	 */
+	public function map(\Slim\Route $route) {
+		list($groupPattern, $groupMiddleware) = $this->processGroups();
+		$route->setPattern($groupPattern . $route->getPattern());
+		$route->setContainer($this->container);
+		$this->routes[] = $route;
+		foreach ($groupMiddleware as $middleware) {
+			$route->setMiddleware($middleware);
+		}
+	}
+
+	/**
 	 *
 	 * @return \DI\Container
 	 */
-	function getContainer() {
+	public function getContainer() {
 		return $this->container;
 	}
 

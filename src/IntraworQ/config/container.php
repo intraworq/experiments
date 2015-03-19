@@ -1,8 +1,13 @@
 <?php
+
 //definicja cache
+$builder = new \DI\ContainerBuilder();
+$builder->addDefinitions(__DIR__ . '/injections.php');
+$container = $builder->build();
+
 $cache = \CacheCache\CacheManager::factory(array(
-		'backend' => 'CacheCache\Backends\Memcache',
-		'backend_args' => array(array(
+				'backend' => 'CacheCache\Backends\Memcache',
+				'backend_args' => array(array(
 				'host' => 'localhost',
 				'port' => 11211
 			))
@@ -42,9 +47,26 @@ $app->container->singleton('exceptions', function () use($app) {
 //});
 
 
-$app->container->singleton('db',
-	function () use($config) {
+$app->container->singleton('db', function () use($config) {
 	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
 	return $pdo;
+});
+
+if ($app->config('debug')) {
+	$app->debugBar->addCollector(new IntraworQ\Library\Log4PhpCollector($app->log));
+
+	//doctrine
+	$debugStack = new \Doctrine\DBAL\Logging\DebugStack();
+	$entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
+	$app->debugBar->addCollector(new DebugBar\Bridge\DoctrineCollector($entityManager));
+	//pdo
+	$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
+	$app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
+}
+
+$container->set('App', $app);
+
+$app->container->singleton('router', function () use ($container) {
+	return new IntraworQ\Library\Slim\Router($container);
 });
 
