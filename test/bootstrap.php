@@ -18,7 +18,8 @@ class LocalWebTestCase extends WebTestCase {
 	public function setup() {
 		// Establish a local reference to the Slim app object
 		$this->app = $this->getSlimInstance();
-		$this->client = new IntraworQ\Library\Utilities\WebTestClient($this->app);
+
+		$this->client = new There4\Slim\Test\WebTestClient($this->app);
 	}
 
 	public function getSlimInstance() {
@@ -28,7 +29,7 @@ class LocalWebTestCase extends WebTestCase {
 			'mode'    => 'testing'
 			)));
 
-		$app = new \Slim\Slim([
+		$app = new IntraworQ\Library\Slim\Slim([
 			'view' => new \Slim\Views\Smarty(),
 			'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views',
 			'debug' => false
@@ -39,8 +40,13 @@ class LocalWebTestCase extends WebTestCase {
 		bind_textdomain_codeset($domain, 'UTF-8');
 		bindtextdomain($domain, $path); 
 		textdomain($domain);
-      // Include our core application file
+		$builder = new \DI\ContainerBuilder();
+		$builder->addDefinitions(PROJECT_ROOT . '/src/IntraworQ/config/injections.php');
+		$container = $builder->build();
+		$container->set('App', $app);
+		// Include our core application file
 		require PROJECT_ROOT . '/src/IntraworQ/app.php';
+		require_once PROJECT_ROOT . '/src/IntraworQ/config/router.php';
 
 		return $app;
 	}

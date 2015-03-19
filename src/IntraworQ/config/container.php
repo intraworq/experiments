@@ -47,3 +47,4 @@ $app->container->singleton('db',
 	$pdo = new PDO($config['pdo']['dsn'], $config['pdo']['username'], $config['pdo']['password'], $config['pdo']['options']);
 	return $pdo;
 });
+

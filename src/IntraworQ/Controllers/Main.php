@@ -3,7 +3,6 @@
 class Main extends Controller {
 	
 	public function index() {
-
 		$this->renderView("index");
 	}
 
@@ -12,7 +11,7 @@ class Main extends Controller {
 		$request = new \Slim\Http\Request($env);
 		$uri = $request->getResourceUri();
 		$this->view()->set('uri', $uri);
-		$this->app->response()->setStatus(404);
+//		$this->app->response()->setStatus(404);
 		$this->renderView('404');
 	}
 }

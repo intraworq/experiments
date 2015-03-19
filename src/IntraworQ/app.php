@@ -20,10 +20,6 @@ use IntraworQ\Models;
 use IntraworQ\Controllers;
 use IntraworQ\Library;
 
-$builder = new \DI\ContainerBuilder();
-$builder->addDefinitions(__DIR__ . '/config/injections.php');
-$container = $builder->build();
-
 
 Logger::configure($config['logger']);
 
@@ -50,18 +46,6 @@ $app->debugBar->addCollector(new DebugBar\Bridge\DoctrineCollector($entityManage
 $pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($app->db);
 $app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 }
-$container->set('App', $app);
-$router = new \IntraworQ\Library\Router($container);
-
-$routes = array(
-	'/' => 'Main:index@get',
-	'/hello/:name' => 'User:index@get'
-);
-
-$router->addRoutes($routes);
-$router->set404Handler("Main:_404");
-$app->container->singleton('routing', function () use($router) {
-
-	return $router;
+$app->container->singleton('router', function () use ($container) {
+	return new Library\Slim\Router($container);
 });
-

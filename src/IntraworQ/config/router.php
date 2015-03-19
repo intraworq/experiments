@@ -1,13 +1,6 @@
 <?php
+$app->get('/', '\IntraworQ\Controllers\Main:index');
 
-$app->get('/',
-	function () use($app) {
-	$app->log->debug("GET: / route");
-	$app->log->info("GET: / route");
-	$app->log->error("GET: / route");
-
-	$app->render('index.tpl');
-});
 
 $app->get('/test', function() {
 	echo 'test';
@@ -19,7 +12,7 @@ $app->get('/hello/:name',
 	echo "Hello, {$name}";
 });
 
-$app->get('/greet/:name',
+$app->get('/greeta/:name',
 	function($name) use($app) {
 	$app->log->info("GET: getting /greet/{$name} route");
 	$app->render('hello.tpl');

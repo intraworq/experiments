@@ -1,6 +1,6 @@
 <?php namespace IntraworQ\Controllers;
 
-abstract class Controller extends \Slim\Slim
+abstract class Controller 
 {
 	protected $model;
 	protected $view;
@@ -8,7 +8,6 @@ abstract class Controller extends \Slim\Slim
 	protected $app;
 
 	public function __construct(\Slim\Slim $app, \IntraworQ\Models\Model $model = null, array $settings = array()) {
-		parent::__construct($settings);
 		$this->model = $model;
 		$this->app = $app;
 		$this->view = $app->view();
