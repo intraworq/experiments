@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 xhprof_enable();
 
 $app = new IntraworQ\Library\Slim\Slim([
+	'debug' => true,
+	'mode' => 'development',
 	'view' => new Slim\Views\Smarty(),
 	'templates.path' => __DIR__ . '/Views'
 	]);
