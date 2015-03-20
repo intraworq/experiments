@@ -45,3 +45,15 @@ https://github.com/sqlitebrowser/sqlitebrowser/releases
 
 ORM
 http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/getting-started.html
+
+XHPROF
+Download php_xhprof-0.10.6-5.5-nts-vc11-x86.zip from http://windows.php.net/downloads/pecl/releases/xhprof/0.10.6
+Configure php.ini
+
+[xhprof]
+extension=php_xhprof.dll
+xhprof.output_dir="<output dir with profiling files results>"
+
+To run profiling type <domain>/index_dev.php
+
+To show profiling results: http://<localhost>/vendor/facebook/xhprof/xhprof_html/index.php

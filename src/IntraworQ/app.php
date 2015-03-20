@@ -1,5 +1,15 @@
 <?php
 
+$language = "pl_PL";
+putenv("LANG=" . $language);
+setlocale(LC_ALL, $language);
+
+$domain = 'messages';
+$path = __DIR__ . '/i18n';
+bind_textdomain_codeset($domain, 'UTF-8');
+bindtextdomain($domain, $path);
+textdomain($domain);
+
 require 'config/bootstrap.php';
 require 'config.php';
 
@@ -36,3 +46,8 @@ $view->parserExtensions = array(
 );
 
 $view->getInstance()->assign('debugbarRenderer', $app->config('debug') ? $app->debugBar->getJavascriptRenderer() : null);
+
+$app->add(new IntraworQ\Library\Middleware\mid());
+$app->hook('slim.before', function () use ($app) {
+	$app->time->startMeasure('longop', 'Start site');
+});
