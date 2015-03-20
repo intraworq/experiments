@@ -48,6 +48,28 @@ $view->parserExtensions = array(
 $view->getInstance()->assign('debugbarRenderer', $app->config('debug') ? $app->debugBar->getJavascriptRenderer() : null);
 
 $app->add(new IntraworQ\Library\Middleware\mid());
+
 $app->hook('slim.before', function () use ($app) {
-	$app->time->startMeasure('longop', 'Start site');
+	$app->time->startMeasure('longop1', 'Start site');
+
+	if ($app->config('debug')) {
+		xhprof_enable();
+	}
+	$app->time->stopMeasure('longop1');
+});
+$app->hook('slim.after', function () use ($app) {
+
+	if ($app->config('debug')) {
+		$xhprof_data = xhprof_disable();
+
+		include_once "vendor\\facebook\\xhprof\\xhprof_lib\\utils\\xhprof_lib.php";
+		include_once "vendor\\facebook\\xhprof\\xhprof_lib\\utils\\xhprof_runs.php";
+
+		// save raw data for this profiler run using default
+		// implementation of iXHProfRuns.
+		$xhprof_runs = new XHProfRuns_Default();
+
+		// save the run under a namespace "xhprof_foo"
+		$run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_IntraworQ");
+	}
 });

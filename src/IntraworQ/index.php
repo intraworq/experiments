@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 $app = new IntraworQ\Library\Slim\Slim([
-	'debug' => false,
+	'debug' => true,
 	'mode' => 'production',
 	'view' => new Slim\Views\Smarty(),
 	'templates.path' => __DIR__ . '/Views'
