@@ -8,20 +8,20 @@ $app->get('/test', function() {
 
 $app->get('/hello/:name',
 	function($name) use($app) {
-	$app->log->info("GET: getting /hello/{$name} route");
+//	$app->log->info("GET: getting /hello/{$name} route");
 	echo "Hello, {$name}";
 });
 
 $app->get('/greet/:name',
 	function($name) use($app) {
-	$app->log->info("GET: getting /greet/{$name} route");
+//	$app->log->info("GET: getting /greet/{$name} route");
 	$app->render('hello.tpl', ['name' => $name]);
 });
 
 $app->post('/user',
 	function() use($app) {
 	$payload = $app->request->post('name');
-	$app->log->info("POST: {$payload} created");
+//	$app->log->info("POST: {$payload} created");
 	if ($app->request->isAjax()) {
 		$app->log->info('got AJAX request');
 		$a = ['user' => $payload . ' created'];
@@ -42,15 +42,15 @@ $app->get('/user_ajax',
 
 $app->post('/long1',
 	function() use($app) {
-	$app->log->info('/long1');
-	$app->log->info($app->request->post());
+//	$app->log->info('/long1');
+//	$app->log->info($app->request->post());
 	sleep(1);
 	$app->response->write(json_encode(['res' => 'long1']));
 });
 
 $app->post('/long2',
 	function() use($app) {
-	$app->log->info('/long2');
+//	$app->log->info('/long2');
 	sleep(1);
 	$app->response->write(json_encode(['res' => 'long2']));
 });
