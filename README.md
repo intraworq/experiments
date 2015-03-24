@@ -57,3 +57,6 @@ xhprof.output_dir="<output dir with profiling files results>"
 To run profiling type <domain>/index_dev.php
 
 To show profiling results: http://<localhost>/vendor/facebook/xhprof/xhprof_html/index.php
+
+[selenium]
+Run seleenium server: java -jar selenium-server-standalone-2.45.0.jar
