@@ -27,7 +27,7 @@ class RoutesTest extends LocalWebTestCase
 	public function test_get_route_with_param() {
 		$this->client->get('/hello/George');
 		$this->assertEquals(200, $this->client->response->status());
-		$this->assertEquals("Hello, George", $this->client->response->body());
+		$this->assertRegExp("/Hello, George/", $this->client->response->body());
 	}
 
 	public function test_not_found_site() {
@@ -50,6 +50,6 @@ class RoutesTest extends LocalWebTestCase
 		$data = ['name' => 'George'];
 		//$payload =  json_encode($data);
 		$this->client->post('/user', $data);
-		$this->assertEquals("George created", $this->client->response->body());
+		$this->assertRegExp("/George created/", $this->client->response->body());
 	}
 }
