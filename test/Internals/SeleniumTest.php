@@ -12,11 +12,11 @@ class SeleniumTest extends \PHPUnit_Extensions_Selenium2TestCase {
 	protected function setUp() {
         $this->setBrowser('firefox');
 		$this->shareSession(TRUE);
-        $this->setBrowserUrl('http://google.pl/');
+        $this->setBrowserUrl('http://experiments.mp');
 	}
 
     public function test_login_workflow() {
-		$this->url('http://experiments.mp/login');
+		$this->url('/login');
 		$username = $this->byXPath('/html/body/form/input[1]');
 		$username->value('workflow');
 		$submit = $this->byXPath('/html/body/form/input[3]');
@@ -26,7 +26,7 @@ class SeleniumTest extends \PHPUnit_Extensions_Selenium2TestCase {
 	}
 
     public function test_login_quest() {
-		$this->url('http://experiments.mp/login');
+		$this->url('/login');
 		$username = $this->byXPath('/html/body/form/input[1]');
 		$username->value('guest');
 		$submit = $this->byXPath('/html/body/form/input[3]');
@@ -37,7 +37,7 @@ class SeleniumTest extends \PHPUnit_Extensions_Selenium2TestCase {
 
     public function test_title()
     {
-		$this->url('http://experiments.mp');
+		$this->url('/');
 		$this->assertEquals('IntraworQ - no translation', $this->title());
     }
 
