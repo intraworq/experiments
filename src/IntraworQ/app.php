@@ -34,8 +34,8 @@ use IntraworQ\Library;
 Logger::configure($config['logger']);
 
 require 'config/container.php';
+require 'config/acl.php';
 require 'config/router.php';
-
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
 $view->parserCompileDirectory = __DIR__ . '/tmp/compiled';
@@ -47,7 +47,7 @@ $view->parserExtensions = array(
 
 $view->getInstance()->assign('debugbarRenderer', $app->config('debug') ? $app->debugBar->getJavascriptRenderer() : null);
 
-$app->add(new IntraworQ\Library\Middleware\mid());
+//$app->add(new IntraworQ\Library\Middleware\mid());
 
 $app->hook('slim.before', function () use ($app) {
 	$app->time->startMeasure('longop1', 'Start site');
@@ -55,7 +55,6 @@ $app->hook('slim.before', function () use ($app) {
 	if ($app->config('debug')) {
 		xhprof_enable();
 	}
-	$app->time->stopMeasure('longop1');
 });
 $app->hook('slim.after', function () use ($app) {
 
@@ -70,6 +69,6 @@ $app->hook('slim.after', function () use ($app) {
 		$xhprof_runs = new XHProfRuns_Default();
 
 		// save the run under a namespace "xhprof_foo"
-		$run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_IntraworQ");
+		$xhprof_runs->save_run($xhprof_data, "xhprof_IntraworQ");
 	}
 });

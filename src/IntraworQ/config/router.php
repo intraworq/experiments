@@ -1,10 +1,61 @@
 <?php
+
 $app->get('/', '\IntraworQ\Controllers\Main:index');
-
-
-$app->get('/test', function() {
-	echo 'test';
+$app->error(function(Exception $e) use ($app) {
+	if ($e->getCode() === 403) {
+		echo'Access Forbiden';
+	}
+	$app->render('index.tpl');
+	$app->exceptions->addException($e);
 });
+
+
+// Login route MUST be named 'login'
+$app->map('/login',
+	function () use ($app) {
+	$username = null;
+	if ($app->request()->isPost()) {
+		$username = $app->request->post('username');
+		$password = $app->request->post('password');
+
+		$result = $app->authenticator->authenticate($username, $password);
+
+		if ($result->isValid()) {
+			$app->redirect('/guest');
+		} else {
+			$messages = $result->getMessages();
+			dump($messages);
+			$app->flashNow('error', $messages[0]);
+			$app->redirect('/');
+		}
+	}
+	$app->render('userForm.tpl');
+})->via('GET', 'POST')->name('login');
+
+$app->get('/logout', function () use ($app) {
+	$app->authenticator->logout();
+	$app->redirect('/');
+});
+$app->get('/guest',
+	function()use($acl, $app) {
+	echo'<br/>';
+	/* @var $auth ArrayObject */
+	$auth = $_SESSION['Zend_Auth'];
+	$role = isset($auth['storage']['role']) ? $auth['storage']['role'] : 'guest';
+
+	if ($acl->isAllowed($role, $app->router->getCurrentRoute()->getPattern(), 'edit')) {
+		echo'mam dostęp do edycji';
+	} else {
+		echo'nie masz dostępu do edycji';
+	}
+	$app->render('index.tpl');
+});
+$app->get('/param/:name',
+	function($name)use($acl, $app) {
+	/* @var $app Slim\Slim */
+	echo'Tylko jako workflow tu wejde';
+	$app->render('index.tpl');
+})->name('param');
 
 $app->get('/hello/:name',
 	function($name) use($app) {
@@ -31,12 +82,11 @@ $app->post('/user',
 	}
 });
 
-$app->get('/user',function() use($app) {
-	$app->render('user.tpl',['user' => new \IntraworQ\Models\User("George")]);
+$app->get('/user', function() use($app) {
+	$app->render('user.tpl', ['user' => new \IntraworQ\Models\User("George")]);
 });
 
-$app->get('/user_ajax',
-	function() use($app) {
+$app->get('/user_ajax', function() use($app) {
 	$app->render('user_ajax.tpl');
 });
 
@@ -62,23 +112,19 @@ $app->post('/long3',
 	$app->response->write(json_encode(['res' => 'long3']));
 });
 
-$app->get('/long',
-	function() use($app) {
+$app->get('/long', function() use($app) {
 	$app->render('long.tpl');
 });
 
-$app->get('/chart',
-	function() use($app) {
+$app->get('/chart', function() use($app) {
 	$app->render('chart.tpl');
 });
 
-$app->get('/progress',
-	function() use($app) {
+$app->get('/progress', function() use($app) {
 	$app->render('progress.tpl');
 });
 
-$app->get('/jqueryui',
-	function() use($app) {
+$app->get('/jqueryui', function() use($app) {
 	$app->render('jqueryui.tpl');
 });
 
