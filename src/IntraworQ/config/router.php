@@ -37,33 +37,30 @@ $app->get('/logout', function () use ($app) {
 	$app->authenticator->logout();
 	$app->redirect('/');
 });
-$app->get('/guest',
-	function()use($app) {
+$app->get('/guest',	function()use($app) {
 	$acl = $app->acl;
-	echo'<br/>';
 	/* @var $auth ArrayObject */
 	$auth = $_SESSION['Zend_Auth'];
 	$role = isset($auth['storage']['role']) ? $auth['storage']['role'] : 'guest';
 
 	if ($acl->isAllowed($role, $app->router->getCurrentRoute()->getPattern(), 'edit')) {
-		echo'mam dostęp do edycji';
+		$message = 'mam dostęp do edycji';
 	} else {
-		echo'nie masz dostępu do edycji';
+		$message = 'nie masz dostępu do edycji';
 	}
-	$app->render('index.tpl');
+	$app->render('index.tpl',['login_info'=>$message]);
 });
-$app->get('/param/:name',
-	function($name)use($acl, $app) {
+$app->get('/param/:name', function($name)use($app) {
 	/* @var $app Slim\Slim */
-	echo'Tylko jako workflow tu wejde';
-	$app->render('index.tpl');
+	$message = 'Tylko jako workflow tu wejde';
+	$app->render('index.tpl',['login_info'=>$message]);
 })->name('param');
 
 $app->get('/deny',
-	function()use($acl, $app) {
+	function()use($app) {
 	/* @var $app Slim\Slim */
-	echo'Nikt nie ma dostępu';
-	$app->render('index.tpl');
+	$message = 'Nikt nie ma dostępu';
+	$app->render('index.tpl',['login_info'=>$message]);
 });
 
 
