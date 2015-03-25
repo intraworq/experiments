@@ -6,6 +6,9 @@ use Zend\Permissions\Acl\Acl as ZendAcl;
 
 class Acl extends ZendAcl {
 
+	/**
+	 * ustawiamy definicję dostępnych ról
+	 */
 	public function __construct() {
 		// APPLICATION ROLES
 		$this->addRole('guest');
@@ -18,6 +21,9 @@ class Acl extends ZendAcl {
 
 	}
 
+	/**
+	 * ustawiamy uprawnienia
+	 */
 	public function setPerm() {
 		// APPLICATION PERMISSIONS
 		// Now we allow or deny a role's access to resources. The third argument
@@ -29,6 +35,7 @@ class Acl extends ZendAcl {
 		$this->allow('workflow', '/param/:name', array('GET', 'edit'));
 		$this->deny('guest', '/guest', array('edit'));
 		$this->allow('workflow', '/guest', array('edit'));
+		$this->allow('admin');
 	}
 
 }
