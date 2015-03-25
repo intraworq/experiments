@@ -24,10 +24,9 @@ class RoutesTest extends LocalWebTestCase
 		$this->assertEquals(200, $this->client->response->status());
 		$this->assertRegExp("/To my site/", $this->client->response->body());
 	}
-	public function test_get_route_with_param() {
+	public function test_get_route_access_deny() {
 		$this->client->get('/hello/George');
-		$this->assertEquals(200, $this->client->response->status());
-		$this->assertRegExp("/Hello, George/", $this->client->response->body());
+		$this->assertEquals(302, $this->client->response->status());
 	}
 
 	public function test_not_found_site() {
@@ -42,6 +41,7 @@ class RoutesTest extends LocalWebTestCase
 		$language = "en_US";
 		putenv("LANG=" . $language);
 		setlocale(LC_ALL, $language);
+		$this->client->app->acl->allow('guest');
 		$this->client->get('/greet/George');
 		$this->assertRegExp("/George/", $this->client->response->body());
 	}
@@ -49,7 +49,9 @@ class RoutesTest extends LocalWebTestCase
 	public function test_post_route() {
 		$data = ['name' => 'George'];
 		//$payload =  json_encode($data);
+		$this->client->app->acl->allow('guest');
 		$this->client->post('/user', $data);
+
 		$this->assertRegExp("/George created/", $this->client->response->body());
 	}
 }

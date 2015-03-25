@@ -27,7 +27,6 @@ $app->map('/login',
 			$messages = $result->getMessages();
 			dump($messages);
 			$app->flashNow('error', $messages[0]);
-			$app->redirect('/');
 		}
 	}
 	$app->render('userForm.tpl');
