@@ -52,14 +52,14 @@ $app->get('/guest',
 	$app->render('index.tpl');
 });
 $app->get('/param/:name',
-	function($name)use($acl, $app) {
+	function($name)use($app) {
 	/* @var $app Slim\Slim */
 	echo'Tylko jako workflow tu wejde';
 	$app->render('index.tpl');
 })->name('param');
 
 $app->get('/deny',
-	function()use($acl, $app) {
+	function()use($app) {
 	/* @var $app Slim\Slim */
 	echo'Nikt nie ma dostępu';
 	$app->render('index.tpl');
