@@ -70,3 +70,10 @@ $app->container->singleton('router', function () use ($container) {
 	return new IntraworQ\Library\Slim\Router($container);
 });
 
+
+
+$app->container->singleton('acl', function ()  {
+
+	$acl = new \IntraworQ\ACL\Acl();
+	return $acl;
+});

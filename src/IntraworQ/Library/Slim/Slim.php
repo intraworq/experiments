@@ -13,6 +13,9 @@ class Slim extends \Slim\Slim {
 	protected function mapRoute($args) {
 		$pattern = array_shift($args);
 		$callable = array_pop($args);
+		if (!$this->acl->hasResource($pattern)) {
+			$this->acl->addResource($pattern);
+		}
 		$route = new Route($pattern, $callable, $this->settings['routes.case_sensitive']);
 		$this->router->map($route);
 		if (count($args) > 0) {

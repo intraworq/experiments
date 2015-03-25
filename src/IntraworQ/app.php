@@ -34,8 +34,12 @@ use IntraworQ\Library;
 Logger::configure($config['logger']);
 
 require 'config/container.php';
-require 'config/acl.php';
 require 'config/router.php';
+require 'config/acl.php';
+
+
+
+
 $view = $app->view();
 $view->parserDirectory = __DIR__ . '/tmp/smarty';
 $view->parserCompileDirectory = __DIR__ . '/tmp/compiled';

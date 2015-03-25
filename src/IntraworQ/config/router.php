@@ -38,7 +38,8 @@ $app->get('/logout', function () use ($app) {
 	$app->redirect('/');
 });
 $app->get('/guest',
-	function()use($acl, $app) {
+	function()use($app) {
+	$acl = $app->acl;
 	echo'<br/>';
 	/* @var $auth ArrayObject */
 	$auth = $_SESSION['Zend_Auth'];

@@ -15,18 +15,10 @@ class Acl extends ZendAcl {
 		$this->addRole('workflow', 'guest');
 		$this->addRole('admin');
 
-		// APPLICATION RESOURCES
-		// Application resources == Slim route patterns
-		$this->addResource('/');
-		$this->addResource('/login');
-		$this->addResource('/logout');
-		$this->addResource('/member');
-		$this->addResource('/admin');
-		$this->addResource('/guest');
-		$this->addResource('/deny');
-//		$this->addResource('/param');
-		$this->addResource('/param/:name');
 
+	}
+
+	public function setPerm() {
 		// APPLICATION PERMISSIONS
 		// Now we allow or deny a role's access to resources. The third argument
 		// is 'privilege'. We're using HTTP method for resources.
@@ -35,7 +27,8 @@ class Acl extends ZendAcl {
 		$this->allow('guest', '/logout', 'GET');
 		$this->allow('guest', '/guest', array('GET', 'edit', 'menu1'));
 		$this->allow('workflow', '/param/:name', array('GET', 'edit'));
-//		$this->deny('guest', '/guest', array('edit'));
+		$this->deny('guest', '/guest', array('edit'));
+		$this->allow('workflow', '/guest', array('edit'));
 	}
 
 }
