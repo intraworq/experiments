@@ -5,14 +5,15 @@ $app->error(function(Exception $e) use ($app) {
 	if ($e->getCode() === 403) {
 		echo'Access Forbiden';
 	}
-	$app->render('index.tpl');
 	$app->exceptions->addException($e);
+	$app->render('index.tpl');
 });
 
 
 // Login route MUST be named 'login'
 $app->map('/login',
 	function () use ($app) {
+	
 	$username = null;
 	if ($app->request()->isPost()) {
 		$username = $app->request->post('username');
@@ -56,6 +57,14 @@ $app->get('/param/:name',
 	echo'Tylko jako workflow tu wejde';
 	$app->render('index.tpl');
 })->name('param');
+
+$app->get('/deny',
+	function()use($acl, $app) {
+	/* @var $app Slim\Slim */
+	echo'Nikt nie ma dostępu';
+	$app->render('index.tpl');
+});
+
 
 $app->get('/hello/:name',
 	function($name) use($app) {

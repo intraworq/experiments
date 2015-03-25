@@ -45,7 +45,8 @@ $view->parserExtensions = array(
 	__DIR__ . '/vendor/smarty-gettext/smarty-gettext'
 );
 
-$view->getInstance()->assign('debugbarRenderer', $app->config('debug') ? $app->debugBar->getJavascriptRenderer() : null);
+$view->getInstance()->assign('debugbarRenderer',
+	$app->config('debug') || $app->config('debugBar') ? $app->debugBar->getJavascriptRenderer() : null);
 
 //$app->add(new IntraworQ\Library\Middleware\mid());
 

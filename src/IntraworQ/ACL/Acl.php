@@ -23,6 +23,7 @@ class Acl extends ZendAcl {
 		$this->addResource('/member');
 		$this->addResource('/admin');
 		$this->addResource('/guest');
+		$this->addResource('/deny');
 //		$this->addResource('/param');
 		$this->addResource('/param/:name');
 

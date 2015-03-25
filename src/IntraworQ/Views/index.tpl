@@ -7,4 +7,5 @@
 <a href="/logout">Wylogowanie</a><br/>
 <a href="/param/Test">Parametr</a><br/>
 <a href="/guest">Gość</a><br/>
+<a href="/deny">Brak dostępu</a><br/>
 {/block}
