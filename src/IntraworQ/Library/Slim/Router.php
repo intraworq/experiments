@@ -25,6 +25,9 @@ class Router extends \Slim\Router {
 	 */
 	public function map(\Slim\Route $route) {
 		list($groupPattern, $groupMiddleware) = $this->processGroups();
+		if (!$this->container->get('App')->acl->hasResource($groupPattern . $route->getPattern())) {
+			$this->container->get('App')->acl->addResource($groupPattern . $route->getPattern());
+		}
 		$route->setPattern($groupPattern . $route->getPattern());
 		$route->setContainer($this->container);
 		$this->routes[] = $route;
