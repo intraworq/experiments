@@ -1,5 +1,23 @@
 <?php
 
+$app->group('/api',
+	function () use ($app) {
+
+	// Library group
+	$app->group('/library',
+		function () use ($app) {
+
+		// Get book with ID
+		$app->get('/books/:id', function ($id)use ($app) {
+			echo'book';
+			$app->render('index.tpl');
+		})->name('head');
+	});
+});
+/* @var $app Slim\Slim */
+$app->get('/route', function () use ($app) {
+	$app->redirect($app->urlFor('head'));
+});
 $app->get('/', '\IntraworQ\Controllers\Main:index');
 $app->error(function(Exception $e) use ($app) {
 	if ($e->getCode() === 403) {
