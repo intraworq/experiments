@@ -304,3 +304,9 @@ $app->get('/list',
 	}
 	$app->render('index.tpl');
 });
+
+$app->get('/ajax',	function () use($app) {
+	$app->log->debug("Ajax request");
+	$app->debugBar->sendDataInHeaders(TRUE);
+	echo 'Ajax request';
+});
