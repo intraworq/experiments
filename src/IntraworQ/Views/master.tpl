@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script type='text/javascript' src='/assets/jquery/jquery.js'></script>
 		{block name='head'}
 		{/block}
 		<meta charset="UTF-8">
@@ -10,8 +11,8 @@
 
 <body>
 	<div id="login_info">{if isset($login_info)}{$login_info}{/if}</div>
-	{block name='body'}{/block}
-	{if isset($debugbarRenderer)}{$debugbarRenderer->render()}{/if}
+{block name='body'}{/block}
+{if isset($debugbarRenderer)}{$debugbarRenderer->render()}{/if}
 </body>
 
 </html>

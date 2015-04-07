@@ -1,5 +1,47 @@
 <?php
+/**
+ * Weryfikacja działania ajaxa przy wywoływaniu z błędem i bez
+ */
+$app->get('/ajax', '\IntraworQ\Controllers\Ajax:index');
+$app->post('/requestAjax', '\IntraworQ\Controllers\Ajax:response');
+$app->post('/requestAjax2', '\IntraworQ\Controllers\Ajax:response');
+$app->get('/requestAjax', '\IntraworQ\Controllers\Ajax:response');
+/* @var $app Slim\Slim */
+$app->get('/', '\IntraworQ\Controllers\Main:index');
+$app->error(function(Exception $e) use ($app) {
+	//nadpisujemy kod błędu faktycznym kodem błędu
+	if ($app->config('debug') || $app->request->isAjax()) {
+		$app->response->setStatus($e->getCode());
+	}
+	//logujemy wyjątek
+	$app->exceptions->addException($e);
 
+	if ($app->request->isAjax()) {
+		$app->debugBar->sendDataInHeaders();
+		switch ($e->getCode()) {
+			case 403:
+				echo json_encode('Access Forbiden');
+				return;
+				break;
+
+			
+		}
+	} else {
+
+		switch ($e->getCode()) {
+			case 403:
+				echo 'Access Forbiden';
+				break;
+
+			
+		}
+	}
+	$app->render('error.tpl');
+});
+
+/**
+ * koniec
+ */
 $app->group('/api',
 	function () use ($app) {
 
@@ -14,24 +56,14 @@ $app->group('/api',
 		})->name('head');
 	});
 });
-/* @var $app Slim\Slim */
 $app->get('/route', function () use ($app) {
 	$app->redirect($app->urlFor('head'));
 });
-$app->get('/', '\IntraworQ\Controllers\Main:index');
-$app->error(function(Exception $e) use ($app) {
-	if ($e->getCode() === 403) {
-		echo'Access Forbiden';
-	}
-	$app->exceptions->addException($e);
-	$app->render('index.tpl');
-});
-
 
 // Login route MUST be named 'login'
 $app->map('/login',
 	function () use ($app) {
-	
+
 	$username = null;
 	if ($app->request()->isPost()) {
 		$username = $app->request->post('username');
@@ -54,7 +86,8 @@ $app->get('/logout', function () use ($app) {
 	$app->authenticator->logout();
 	$app->redirect('/');
 });
-$app->get('/guest',	function()use($app) {
+$app->get('/guest',
+	function()use($app) {
 	$acl = $app->acl;
 	/* @var $auth ArrayObject */
 	$auth = $_SESSION['Zend_Auth'];
@@ -65,19 +98,20 @@ $app->get('/guest',	function()use($app) {
 	} else {
 		$message = 'nie masz dostępu do edycji';
 	}
-	$app->render('index.tpl',['login_info'=>$message]);
+	$app->render('index.tpl', ['login_info' => $message]);
 });
-$app->get('/param/:name', function($name)use($app) {
+$app->get('/param/:name',
+	function($name)use($app) {
 	/* @var $app Slim\Slim */
 	$message = 'Tylko jako workflow tu wejde';
-	$app->render('index.tpl',['login_info'=>$message]);
+	$app->render('index.tpl', ['login_info' => $message]);
 })->name('param');
 
 $app->get('/deny',
 	function()use($app) {
 	/* @var $app Slim\Slim */
 	$message = 'Nikt nie ma dostępu';
-	$app->render('index.tpl',['login_info'=>$message]);
+	$app->render('index.tpl', ['login_info' => $message]);
 });
 
 

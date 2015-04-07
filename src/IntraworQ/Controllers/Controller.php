@@ -1,7 +1,9 @@
-<?php namespace IntraworQ\Controllers;
+<?php
 
-abstract class Controller 
-{
+namespace IntraworQ\Controllers;
+
+abstract class Controller {
+
 	protected $model;
 	protected $view;
 	protected $settings;
@@ -12,11 +14,14 @@ abstract class Controller
 		$this->app = $app;
 		$this->view = $app->view();
 		$this->view->set('model', $this->model);
+		if ($app->request->isAjax()) {
+			$this->app->debugBar->sendDataInHeaders();
+		}
 	}
 
 	public function renderView($name, $extension = '.tpl', $params = array(), $status = null) {
-		$params = array_merge(['name' => $name],$params);
-		$this->app->render($name . $extension,
-			$params, $status);
+		$params = array_merge(['name' => $name], $params);
+		$this->app->render($name . $extension, $params, $status);
 	}
+
 }

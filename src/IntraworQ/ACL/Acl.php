@@ -36,6 +36,7 @@ class Acl extends ZendAcl {
 		$this->deny('guest', '/guest', array('edit'));
 		$this->allow('workflow', '/guest', array('edit'));
 		$this->allow('admin');
+		$this->deny('admin', '/requestAjax');
 	}
 
 }
