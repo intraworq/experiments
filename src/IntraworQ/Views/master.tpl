@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="/assets/jquery/jquery.js"></script>
 		{block name='head'}
 		{/block}
 		<meta charset="UTF-8">
