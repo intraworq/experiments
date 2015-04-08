@@ -10,8 +10,6 @@ class SeleniumTest extends \PHPUnit_Extensions_Selenium2TestCase {
 	);
 
 	protected function setUp() {
-        $this->setBrowser('firefox');
-		$this->shareSession(TRUE);
         $this->setBrowserUrl('http://experiments.mp');
 	}
 

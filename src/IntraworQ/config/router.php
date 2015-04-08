@@ -90,7 +90,7 @@ $app->get('/guest',
 	function()use($app) {
 	$acl = $app->acl;
 	/* @var $auth ArrayObject */
-	$auth = $_SESSION['Zend_Auth'];
+	$auth = $_SESSION['slim_auth'];
 	$role = isset($auth['storage']['role']) ? $auth['storage']['role'] : 'guest';
 
 	if ($acl->isAllowed($role, $app->router->getCurrentRoute()->getPattern(), 'edit')) {
