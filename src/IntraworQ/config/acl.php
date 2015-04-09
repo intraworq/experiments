@@ -6,6 +6,5 @@ $adapter = new JeremyKendall\Slim\Auth\Adapter\Db\PdoAdapter(
 );
 $authBootstrap = new \JeremyKendall\Slim\Auth\Bootstrap($app, $adapter, $app->acl);
 $authBootstrap->bootstrap();
-$app->add(new \Slim\Middleware\SessionCookie());
 
 $app->acl->setPerm();

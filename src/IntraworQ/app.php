@@ -13,25 +13,6 @@ textdomain($domain);
 require 'config/bootstrap.php';
 require 'config.php';
 
-//cookie
-//$app->add(new \Slim\Middleware\SessionCookie(array(
-//	'expires' => '20 minutes',
-//	'path' => '/',
-//	'domain' => null,
-//	'secure' => false,
-//	'httponly' => false,
-//	'name' => 'slim_session',
-//	'secret' => 'CHANGE_ME',
-//	'cipher' => MCRYPT_RIJNDAEL_256,
-//	'cipher_mode' => MCRYPT_MODE_CBC
-//)));
-
-$manager = new \Slim\Middleware\SessionManager($app);
-$manager->setFilesystem(new \Illuminate\Filesystem\Filesystem());
-$session = new \Slim\Middleware\Session($manager);
-
-$app->add($session);
-
 use DebugBar\StandardDebugBar;
 use IntraworQ\Models;
 use IntraworQ\Controllers;
