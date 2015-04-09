@@ -19,6 +19,9 @@
    <testsuites>
      <testsuite name="Internals">
       <directory>Internals</directory>
+      <!--<exclude>./Internals/SeleniumTest.php</exclude>
+      <exclude>./Internals/RoutesTest.php</exclude>
+      <exclude>./Internals/AuthenticateTest.php</exclude>-->
    </testsuite>
 <!--    <testsuite name="Integration">
       <directory>Integration</directory>

@@ -91,6 +91,7 @@ $app->get('/guest',
 	$acl = $app->acl;
 
 	$identity = $app->auth->getIdentity();
+	$arr = $app->auth->getStorage()->read();
 
 	$role = isset($identity['role']) ? $identity['role'] : 'guest';
 

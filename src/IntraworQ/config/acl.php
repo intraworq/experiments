@@ -10,11 +10,10 @@ $adapter = new JeremyKendall\Slim\Auth\Adapter\Db\PdoAdapter(
 
 $sessionConfig = new SessionConfig();
 $sessionConfig->setOptions(array(
-    'remember_me_seconds' => 60 * 60 * 24 * 7,
-    'name' => 'slim-auth-impl',
+	'remember_me_seconds' => 60 * 60 * 24 * 7,
+	'name' => 'slim-auth-impl',
 ));
 $sessionManager = new SessionManager($sessionConfig);
-$sessionManager->rememberMe();
 $storage = new SessionStorage(null, null, $sessionManager);
 $authBootstrap = new \JeremyKendall\Slim\Auth\Bootstrap($app, $adapter, $app->acl);
 $authBootstrap->setStorage($storage);
