@@ -21,4 +21,11 @@ class AuthenticateTest extends LocalWebTestCase {
 
 		$this->assertEquals('mam dostęp do edycji', $crawler->filterXPath('html/body/div[1]')->text());
 	}
+
+	public function test_logout() {
+		$this->app->auth->getStorage()->write(self::$storageData);
+		$this->client->get('/logout');
+		$this->assertNull($this->app->auth->getStorage()->read());
+		$this->assertEquals(302, $this->client->response->status());
+	}
 }
