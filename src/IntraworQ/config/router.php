@@ -89,9 +89,10 @@ $app->get('/logout', function () use ($app) {
 $app->get('/guest',
 	function()use($app) {
 	$acl = $app->acl;
-	/* @var $auth ArrayObject */
-	$auth = $_SESSION['slim_auth'];
-	$role = isset($auth['storage']['role']) ? $auth['storage']['role'] : 'guest';
+
+	$identity = $app->auth->getIdentity();
+
+	$role = isset($identity['role']) ? $identity['role'] : 'guest';
 
 	if ($acl->isAllowed($role, $app->router->getCurrentRoute()->getPattern(), 'edit')) {
 		$message = 'mam dostęp do edycji';
