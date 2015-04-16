@@ -1,5 +1,5 @@
 <?php
-use Zend\Authentication\Storage\Session as SessionStorage;
+use IntraworQ\Library\Session as SessionStorage;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\SessionManager;
 

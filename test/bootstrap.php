@@ -15,18 +15,18 @@ require_once PROJECT_ROOT . '/vendor/autoload.php';
 class LocalWebTestCase extends WebTestCase {
 
 	public function getSlimInstance() {
-		
+
 		\Slim\Environment::mock(array_merge(array(
-			'SERVER_NAME'    => 'local.dev',
-			'mode'    => 'testing'
-			)));
+			'SERVER_NAME' => 'local.dev',
+			'mode' => 'testing'
+		)));
 
 		$app = new IntraworQ\Library\Slim\Slim([
 			'view' => new \Slim\Views\Smarty(),
 			'templates.path' => PROJECT_ROOT . '/src/IntraworQ/Views',
 			'debug' => false
 		]);
-	
+
 		// Include our core application file
 		require PROJECT_ROOT . '/src/IntraworQ/app.php';
 
@@ -36,20 +36,21 @@ class LocalWebTestCase extends WebTestCase {
 
 class LocalWebTestCaseWithSession extends LocalWebTestCase {
 
-	public static $storageData;
+	public static $storage;
 
 	public function setup() {
 		parent::setup();
-		$this->app->auth->getStorage()->write(self::$storageData);
+		if (!is_null(self::$storage)) {
+			$this->app->auth->getStorage()->write(self::$storage);
+		}
 	}
 
-    public function tearDown()
-    {
-		self::$storageData = $this->app->auth->getStorage()->read();
-    }
+	public function tearDown() {
+		self::$storage = $this->app->auth->getStorage()->read();
+	}
 
-	public function getStorageData() {
-		return self::$storageData;
+	public function getStorage() {
+		return self::$storage;
 	}
 
 }
