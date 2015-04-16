@@ -33,3 +33,23 @@ class LocalWebTestCase extends WebTestCase {
 		return $app;
 	}
 };
+
+class LocalWebTestCaseWithSession extends LocalWebTestCase {
+
+	public static $storageData;
+
+	public function setup() {
+		parent::setup();
+		$this->app->auth->getStorage()->write(self::$storageData);
+	}
+
+    public function tearDown()
+    {
+		self::$storageData = $this->app->auth->getStorage()->read();
+    }
+
+	public function getStorageData() {
+		return self::$storageData;
+	}
+
+}
