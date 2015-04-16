@@ -3,6 +3,7 @@
 class Main extends Controller {
 	
 	public function index() {
+		$this->app->flash('notice','Przyklad komunikatu flash');
 		$this->renderView("index");
 	}
 
