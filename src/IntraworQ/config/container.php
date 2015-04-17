@@ -67,7 +67,7 @@ if ($app->config('debug')) {
 	$app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 }
 
-$app->container->singleton('storage', function () {
+$app->container->singleton('session', function () {
 	$sessionConfig = new SessionConfig();
 	$sessionConfig->setOptions(array(
 		'remember_me_seconds' => 60 * 60 * 24 * 7,
