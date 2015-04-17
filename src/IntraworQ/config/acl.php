@@ -5,7 +5,7 @@ $adapter = new JeremyKendall\Slim\Auth\Adapter\Db\PdoAdapter(
 );
 
 $authBootstrap = new \JeremyKendall\Slim\Auth\Bootstrap($app, $adapter, $app->acl);
-$authBootstrap->setStorage($app->storage);
+$authBootstrap->setStorage($app->session);
 $authBootstrap->bootstrap();
 
 $app->acl->setPerm();

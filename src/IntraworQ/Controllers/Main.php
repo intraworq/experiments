@@ -3,8 +3,8 @@
 class Main extends Controller {
 	
 	public function index() {
-		$this->app->storage->add('imie','michal');
-		$this->app->flash('notice','Przyklad komunikatu flash. Sesja zawiera "imie" : '.$this->app->storage->get('imie'));
+		$this->app->session->add('imie','michal');
+		$this->app->flash('notice','Przyklad komunikatu flash. Sesja zawiera "imie" : '.$this->app->session->get('imie'));
 		$this->renderView("index");
 	}
 
