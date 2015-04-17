@@ -1,4 +1,7 @@
 <?php
+use IntraworQ\Library\Session as SessionStorage;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\SessionManager;
 
 //definicja cache
 $builder = new \DI\ContainerBuilder();
@@ -64,16 +67,24 @@ if ($app->config('debug')) {
 	$app->debugBar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
 }
 
+$app->container->singleton('storage', function () {
+	$sessionConfig = new SessionConfig();
+	$sessionConfig->setOptions(array(
+		'remember_me_seconds' => 60 * 60 * 24 * 7,
+		'name' => 'slim-auth-impl',
+	));
+	$sessionManager = new SessionManager($sessionConfig);
+	$storage = new SessionStorage('zend_session', 'data', $sessionManager);
+	return $storage;
+});
+
 $container->set('App', $app);
 
 $app->container->singleton('router', function () use ($container) {
 	return new IntraworQ\Library\Slim\Router($container);
 });
 
-
-
 $app->container->singleton('acl', function ()  {
-
 	$acl = new \IntraworQ\ACL\Acl();
 	return $acl;
 });
