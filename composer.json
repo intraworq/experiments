@@ -10,7 +10,7 @@
 		}],
 	"require": {
 		"php": "~5.5",
-		"slim/slim": "~2.4",
+		"slim/slim": "~2.6",
 		"apache/log4php": "~2.3",
 		"slim/views": "~0.1",
 		"smarty/smarty": "~3.1",
@@ -33,10 +33,10 @@
 	},
 	"require-dev": {
 		"firephp/firephp-core": "dev-master",
-		"phpunit/phpunit": "~4.3",
+		"phpunit/phpunit": "4.*",
 		"mockery/mockery": "~0.9",
 		"fzaninotto/faker": "~1.4",
-		"there4/slim-test-helpers": "~0.9",
+		"there4/slim-test-helpers": "dev-master",
 		"facebook/webdriver": "dev-master",
 		"facebook/xhprof": "dev-master",
 		"psy/psysh": "@stable",
